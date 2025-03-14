@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Them sinh vien</title>
+    <h1>Them sinh vien</h1>
+</head>
+<body>
+    <form action="/addsinhvien" method="post" name="formThemSinhVien">
+        <table><tr>
+            <td><label for="masv">Ma sinh vien</label></td>
+            <td><input type="text" name="masv" id="masv"></td>
+        </tr>
+        <tr>
+            <td><label for="password">nhap mat khau</label></td>
+            <td><input type="text" name="password" id="password"></td>
+        </tr>
+        <tr>
+            <td><label for="tensv">Ten sinh vien</label></td>
+            <td><input type="text" name="tensv" id="tensv"></td>
+        </tr>
+        <tr>
+            <td><label for="ngaysinh">Ngay sinh</label></td>
+            <td><input type="date" name="ngaysinh" id="ngaysinh"></td>
+        </tr>
+        <tr>
+            <td><label for="gioitinh">GIoi tinh</label></td>
+            <td>
+                <input type="radio" name="gioitinh" id="Nam" value="nam">Nam
+                <input type="radio" name="gioitinh" id="Nữ" value="nu">Nu
+            </td>
+            
+        </tr>
+        <tr>
+            <td><label for="lop">Lop</label></td>
+            <td><select name="lop" id="lop">
+                <option disabled selected>chon lop</option>
+                <option value="D22_TH15">D22_TH15</option>
+                <option value="D22_TH14">D22_TH14</option>
+            </select></td>
+        </tr>
+        <tr>
+            <td><label for="chuyennganh">Chuyen nganh</label></td>
+            <td><select name="chuyennganh" id="chuyennganh">
+                <option disabled selected>chon chuyen nganh</option>
+                <option value="CNTT">Cong nghe - thong tin</option>
+                <option value="QTKD">Quan tri kinh doanh</option>
+            </select></td>
+        </tr>
+        <tr>
+            <td><label for="sdt">So dien thoai</label></td>
+            <td><input type="text" name="sdt" id="sdt"></td>
+        </tr>
+        <tr>
+            <td><label for="email">Email</label></td>
+            <td><input type="text" name="email" id="email"></td>
+        </tr>
+        <tr>
+            
+            <td><input type="submit" name="themsinhvien" value="Them sinh vien"></td>
+        
+        </table>
+    </form>
+
+    <div id="message" style="color: red; margin-top: 10px; text-align: center;"></div>
+
+    <div class="message" id="message">
+        <script>
+            const baoloi=new URLSearchParams(window.location.search);
+            const error=baoloi.get('error');
+            if(error){
+                document.getElementById('message').textContent=error;
+            }else{
+                document.getElementById('message').textContent='Thêm sinh viên thành công';
+            }
+        </script>
+    </div>
+</body>
+</html>

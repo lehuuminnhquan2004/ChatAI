@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thời Khóa Biểu</title>
+    <link rel="stylesheet" href="/chatbox.css">
+    <script src="https://kit.fontawesome.com/2da268c579.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <h1>Thời Khóa Biểu</h1>
+    <form action="" name="formThoiKhoaBieu">
+        <table border="1" width="100%" height="200"><tr height="50">
+            <td></td>
+            <th>Thu 2</th>
+            <th>Thu 3</th>
+            <th>Thu 4</th>
+            <th>Thu 5</th>
+            <th>Thu 6</th>
+            <th>Thu 7</th>
+            <th>CN</th>
+        </tr>
+        <tr>
+            <td width="120" align="center">Ca 1: 7h-9h30</td>
+            <td id='thu2ca1'width="80" height="80"></td>
+            <td id='thu3ca1'width="80" height="80"></td>
+            <td id='thu4ca1'width="80" height="80"></td>
+            <td id='thu5ca1'width="80" height="80"></td>
+            <td id='thu6ca1'width="80" height="80"></td>
+            <td id='thu7ca1'width="80" height="80"></td>
+            <td id='thu8ca1'width="80" height="80"></td>
+        </tr>
+        <tr>
+            <td width="120" align="center">Ca 2: 9h35-12h</td>
+            <td id='thu2ca2'width="80" height="80"></td>
+            <td id='thu3ca2'width="80" height="80"></td>
+            <td id='thu4ca2'width="80" height="80"></td>
+            <td id='thu5ca2'width="80" height="80"></td>
+            <td id='thu6ca2'width="80" height="80"></td>
+            <td id='thu7ca2'width="80" height="80"></td>
+            <td id='thu8ca2'width="80" height="80"></td>
+        </tr>
+        <tr>
+            <td width="120" align="center">Ca 3: 12h30-3h</td>
+            <td id='thu2ca3'width="80" height="80"></td>
+            <td id='thu3ca3'width="80" height="80"></td>
+            <td id='thu4ca3'width="80" height="80"></td>
+            <td id='thu5ca3'width="80" height="80"></td>
+            <td id='thu6ca3'width="80" height="80"></td>
+            <td id='thu7ca3'width="80" height="80"></td>
+            <td id='thu8ca3'width="80" height="80"></td>
+        </tr>
+        <tr>
+            <td width="120" align="center">Ca 4: 3h05-5h45</td>
+            <td id='thu2ca4'width="80" height="80"></td>
+            <td id='thu3ca4'width="80" height="80"></td>
+            <td id='thu4ca4'width="80" height="80"></td>
+            <td id='thu5ca4'width="80" height="80"></td>
+            <td id='thu6ca4'width="80" height="80"></td>
+            <td id='thu7ca4'width="80" height="80"></td>
+            <td id='thu8ca4'width="80" height="80"></td>
+        </tr>
+        </table>
+    </form>
+
+    <script>
+        // Hàm để lấy và hiển thị dữ liệu
+        async function loadThoiKhoaBieu() {
+            try {
+                const response = await fetch('/api/thoikhoabieu');
+                const data = await response.json();
+                
+                
+
+                data.forEach(row => {
+                    // Lấy id của ô cần cập nhật
+                    const cellId = `thu${row.Thu}ca${row.Ca}`;
+
+                    // Kiểm tra nếu ô tồn tại thì cập nhật nội dung
+                    const cell = document.getElementById(cellId);
+                    if (cell) {
+                        cell.textContent = `${row.tenmh}
+                        ${row.giangvien}`;
+                    }
+                });
+            } catch (error) {
+                console.error('Lỗi khi tải dữ liệu:', error);
+            }
+        }
+
+        // Tải dữ liệu khi trang được load
+        window.addEventListener('load', loadThoiKhoaBieu);
+    </script>
+    <script src="/chatbox.js"></script>
+</body>
+</html>

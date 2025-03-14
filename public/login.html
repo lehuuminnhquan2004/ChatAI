@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập sinh viên</title>
+</head>
+<body>
+    <h1><center>Sinh Vien</center></h1>
+    
+    <form id="loginForm" action="/login" method="POST">
+        <table width="100%">
+            <tr>
+                <td><label for="masv">MaSV</label></td>
+                <td><input type="text" id="masv" name="masv" required></td>
+            </tr>
+            <tr>
+                <td><label for="password">Password</label></td>
+                <td><input type="password" id="password" name="password" required></td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="submit" value="Dang Nhap" name="login">
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    <div id="message" style="color: red; margin-top: 10px; text-align: center;"></div>
+
+    <div class="message" id="message">
+        <script>
+            const baoloi=new URLSearchParams(window.location.search);
+            const error=baoloi.get('error');
+            if(error){
+                document.getElementById('message').textContent=error;
+            }
+        </script>
+    </div>
+</body>
+</html>
+
+    
+
+
