@@ -9,6 +9,8 @@ import Home from './components/Home';
 import PrivateRoute from './components/PrivateRoute';
 import ForgotPassword from './components/ForgotPassword';
 import SchedulePage from './pages/SchedulePage';
+import Profile from './components/Profile';
+import ChangePassword from './components/ChangePassword';
 
 const theme = createTheme({
   palette: {
@@ -46,6 +48,26 @@ function App() {
               <PrivateRoute>
                 <MainLayout>
                   <SchedulePage />
+                </MainLayout>
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <PrivateRoute>
+                <MainLayout>
+                  <Profile />
+                </MainLayout>
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/change-password"
+            element={
+              <PrivateRoute>
+                <MainLayout>
+                  <ChangePassword />
                 </MainLayout>
               </PrivateRoute>
             }
