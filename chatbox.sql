@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th3 21, 2025 lúc 06:16 PM
+-- Thời gian đã tạo: Th3 21, 2025 lúc 07:58 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -67,7 +67,8 @@ INSERT INTO `lichhoc` (`STT`, `Thu`, `Ca`, `phong`, `masv`, `mamh`, `ngaybatdau`
 (5, 3, 3, '707', 'DH52201105', '002', '2025-03-18', '2025-04-18'),
 (6, 6, 4, '807', 'DH52201105', '003', '2025-03-18', '2025-04-18'),
 (7, 7, 1, '808', 'DH52201286', '004', '2025-02-18', '2025-04-18'),
-(8, 7, 1, '808', 'DH52201105', '004', '2025-02-18', '2025-04-18');
+(8, 7, 1, '808', 'DH52201105', '004', '2025-02-18', '2025-04-18'),
+(9, 7, 2, '808', 'DH52201105', '005', '2025-02-18', '2025-04-18');
 
 -- --------------------------------------------------------
 
@@ -103,7 +104,8 @@ INSERT INTO `lichsuchat` (`id`, `masv`, `nguoidung_chat`, `ai_rep`, `thoigiancha
 (103, 'DH52201286', 'Xin chào.', 'Chào Quân, có gì cần hỗ trợ không?\n', '2025-03-21 23:26:15'),
 (104, 'DH52201105', 'Xin chào bạn.', 'Chào Yến Ngọc.\n', '2025-03-21 23:52:33'),
 (105, 'DH52201105', 'Hôm nay tôi có muốn gì không?', 'Chào Yến Ngọc, hôm nay bạn có môn CSS lúc 15h tại phòng 807 nhé.\n', '2025-03-21 23:52:45'),
-(106, 'DH52201286', 'xin chào bạn mấy giờ rồi', 'Chào Quân, hiện tại là 23:59.\n', '2025-03-21 23:59:59');
+(106, 'DH52201286', 'xin chào bạn mấy giờ rồi', 'Chào Quân, hiện tại là 23:59.\n', '2025-03-21 23:59:59'),
+(107, 'DH52201105', 'xin chào bạn tôi tên gì bạn nhỉ', 'Chào Yến Ngọc.\n', '2025-03-22 01:46:33');
 
 -- --------------------------------------------------------
 
@@ -125,7 +127,8 @@ INSERT INTO `monhoc` (`mamh`, `tenmh`, `giangvien`) VALUES
 ('001', 'HTML', 'Quan Le Huu Minh'),
 ('002', 'JavaScript', 'QuanDepTrai'),
 ('003', 'CSS', 'Viễn Anh Tho'),
-('004', 'Công Nghệ Phần Mềm', 'Hiệu');
+('004', 'Công Nghệ Phần Mềm', 'Hiệu'),
+('005', 'Nhập môn web và ứng dụng', 'Thầy Nghĩa');
 
 -- --------------------------------------------------------
 
@@ -233,13 +236,13 @@ ALTER TABLE `sinhvien`
 -- AUTO_INCREMENT cho bảng `lichhoc`
 --
 ALTER TABLE `lichhoc`
-  MODIFY `STT` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `STT` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT cho bảng `lichsuchat`
 --
 ALTER TABLE `lichsuchat`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=108;
 
 --
 -- Các ràng buộc cho các bảng đã đổ
