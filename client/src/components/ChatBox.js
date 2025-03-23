@@ -14,6 +14,7 @@ import axios from 'axios';
 import './ChatBox.css';
 import useSpeech from '../hooks/useSpeech';
 import VoiceControls from './VoiceControls';
+import authService from '../services/authService';
 
 // Lấy API URL từ biến môi trường
 const API_URL = process.env.REACT_APP_API_URL;
@@ -53,9 +54,18 @@ function ChatBox({ masv }) {
     setIsLoading(true);
 
     try {
+      const token = authService.getToken();
+      if (!token) {
+        throw new Error('Phiên đăng nhập đã hết hạn');
+      }
+
       const response = await axios.post(`${API_URL}/api/chat`, {
         message: messageToSend,
         masv: masv
+      }, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
       });
 
       if (response.data && response.data.response) {
@@ -65,6 +75,10 @@ function ChatBox({ masv }) {
       }
     } catch (error) {
       console.error('Lỗi khi gửi tin nhắn:', error);
+      if (error.message === 'Phiên đăng nhập đã hết hạn') {
+        window.location.href = '/login';
+        return;
+      }
       setMessages(prev => [...prev, { 
         text: 'Xin lỗi, có lỗi xảy ra. Vui lòng thử lại sau.',
         isUser: false 
@@ -100,7 +114,16 @@ function ChatBox({ masv }) {
     const fetchHistory = async () => {
       if (isOpen && masv) {
         try {
-          const response = await axios.get(`${API_URL}/api/chat/history/${masv}`);
+          const token = authService.getToken();
+          if (!token) {
+            throw new Error('Phiên đăng nhập đã hết hạn');
+          }
+
+          const response = await axios.get(`${API_URL}/api/chat/history/${masv}`, {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          });
           const history = response.data.map(item => [
             { text: item.nguoidung_chat, isUser: true },
             { text: item.ai_rep, isUser: false }
@@ -108,6 +131,9 @@ function ChatBox({ masv }) {
           setMessages(history);
         } catch (error) {
           console.error('Lỗi khi lấy lịch sử chat:', error);
+          if (error.message === 'Phiên đăng nhập đã hết hạn') {
+            window.location.href = '/login';
+          }
         }
       }
     };

@@ -4,19 +4,28 @@ const API_URL = process.env.REACT_APP_API_URL;
 
 class AuthService {
   setToken(token) {
-    localStorage.setItem('token', token);
+    // Tạo sessionId ngẫu nhiên
+    const sessionId = Math.random().toString(36).substring(2, 15);
+    localStorage.setItem('sessionId', sessionId);
+    localStorage.setItem(`token_${sessionId}`, token);
   }
 
   getToken() {
-    return localStorage.getItem('token');
+    const sessionId = localStorage.getItem('sessionId');
+    return sessionId ? localStorage.getItem(`token_${sessionId}`) : null;
   }
 
   setUser(user) {
-    localStorage.setItem('user', JSON.stringify(user));
+    const sessionId = localStorage.getItem('sessionId');
+    if (sessionId) {
+      localStorage.setItem(`user_${sessionId}`, JSON.stringify(user));
+    }
   }
 
   getUser() {
-    const userStr = localStorage.getItem('user');
+    const sessionId = localStorage.getItem('sessionId');
+    if (!sessionId) return null;
+    const userStr = localStorage.getItem(`user_${sessionId}`);
     return userStr ? JSON.parse(userStr) : null;
   }
 
@@ -54,8 +63,12 @@ class AuthService {
   }
 
   logout() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
+    const sessionId = localStorage.getItem('sessionId');
+    if (sessionId) {
+      localStorage.removeItem(`token_${sessionId}`);
+      localStorage.removeItem(`user_${sessionId}`);
+      localStorage.removeItem('sessionId');
+    }
   }
 
   // Thêm token vào header của mọi request
@@ -87,5 +100,4 @@ class AuthService {
   }
 }
 
-const authService = new AuthService();
-export default authService; 
+export default new AuthService(); 

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import authService from '../services/authService';
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
@@ -11,7 +12,7 @@ const useSchedule = (masv) => {
   useEffect(() => {
     const fetchSchedule = async () => {
       try {
-        const token = localStorage.getItem('token');
+        const token = authService.getToken();
         if (!token) {
           setError('Vui lòng đăng nhập lại');
           setLoading(false);

@@ -19,9 +19,10 @@ import {
 } from '@mui/icons-material';
 import useSchedule from '../hooks/useSchedule';
 import ChatBox from './ChatBox';
+import authService from '../services/authService';
 
 const Home = () => {
-  const user = JSON.parse(localStorage.getItem('user'));
+  const user = authService.getUser();
   const { schedule, loading, error } = useSchedule(user?.masv);
 
   return (

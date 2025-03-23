@@ -6,6 +6,7 @@ import MainLayout from '../layouts/MainLayout';
 import axios from 'axios';
 import './Profile.css';
 import { useNavigate } from 'react-router-dom';
+import authService from '../services/authService';
 
 function Profile() {
   const [user, setUser] = useState(null);
@@ -22,8 +23,8 @@ function Profile() {
   // Fetch user data when component mounts
   const fetchUserData = useCallback(async () => {
     try {
-      const storedUser = JSON.parse(localStorage.getItem('user'));
-      const token = localStorage.getItem('token');
+      const storedUser = authService.getUser();
+      const token = authService.getToken();
       
       if (!storedUser?.masv) {
         setError('Không tìm thấy thông tin người dùng');
@@ -53,7 +54,7 @@ function Profile() {
           email: userData.email || '',
         });
         // Update localStorage with fresh data
-        localStorage.setItem('user', JSON.stringify(userData));
+        authService.setUser(userData);
         setError(''); // Clear any existing errors
       } else {
         setError(response.data.message || 'Không thể lấy thông tin người dùng');
@@ -95,7 +96,7 @@ function Profile() {
           // Update user data immediately
           const updatedUser = { ...user, hinhanh: response.data.filename };
           setUser(updatedUser);
-          localStorage.setItem('user', JSON.stringify(updatedUser));
+          authService.setUser(updatedUser);
           
           setSuccess('Cập nhật ảnh đại diện thành công!');
           setTimeout(() => setSuccess(''), 3000);
@@ -109,8 +110,8 @@ function Profile() {
 
   const handleEdit = async () => {
     try {
-      const storedUser = JSON.parse(localStorage.getItem('user'));
-      const token = localStorage.getItem('token');
+      const storedUser = authService.getUser();
+      const token = authService.getToken();
 
       if (!token) {
         setError('Vui lòng đăng nhập lại');
@@ -151,7 +152,7 @@ function Profile() {
       if (response.data.success) {
         const updatedUser = response.data.user;
         setUser(updatedUser);
-        localStorage.setItem('user', JSON.stringify(updatedUser));
+        authService.setUser(updatedUser);
         setIsEditing(false);
         setSuccess('Lưu thông tin thành công!');
         setTimeout(() => setSuccess(''), 3000);

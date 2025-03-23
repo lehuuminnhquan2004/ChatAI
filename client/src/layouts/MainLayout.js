@@ -67,12 +67,23 @@ function MainLayout({ children }) {
 
   // Kiểm tra token định kỳ
   useEffect(() => {
-    // Kiểm tra token mỗi 60 giây
-    const interval = setInterval(async () => {
+    let intervalId;
+    let isChecking = true;
+
+    const checkToken = async () => {
+      if (!isChecking) return;
+
       try {
+        const token = authService.getToken();
+        if (!token) {
+          handleLogout();
+          return;
+        }
+
         console.log('Đang kiểm tra token...');
         const isValid = await authService.verifyToken();
         console.log('Token hợp lệ:', isValid);
+        
         if (!isValid) {
           handleLogout();
         }
@@ -83,16 +94,28 @@ function MainLayout({ children }) {
           handleLogout();
         }
       }
-    }, 60000);
+    };
 
-    return () => clearInterval(interval);
+    // Kiểm tra token ngay khi component mount
+    checkToken();
+
+    // Thiết lập interval để kiểm tra token mỗi 30 giây
+    intervalId = setInterval(checkToken, 30000);
+
+    // Cleanup function
+    return () => {
+      isChecking = false;
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
+    };
   }, [handleLogout]);
 
   // Định nghĩa các mục menu trong sidebar
   const menuItems = [
     { text: 'Trang chủ', icon: <HomeIcon />, path: '/' },
-    { text: 'Thời khoá biểu', icon: <CalendarIcon />, path: '/schedule' },
-    // Thêm các menu items khác ở đây
+    { text: 'Lịch học', icon: <CalendarIcon />, path: '/schedule' },
+    { text: 'Hồ sơ', icon: <PersonIcon />, path: '/profile' },
   ];
 
   // Component sidebar chứa logo và menu items
