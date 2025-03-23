@@ -11,6 +11,13 @@ import ForgotPassword from './components/ForgotPassword';
 import SchedulePage from './pages/SchedulePage';
 import Profile from './components/Profile';
 import ChangePassword from './components/ChangePassword';
+import AdminLogin from './admin/Login';
+import AdminHome from './admin/Home';
+import AdminStudents from './admin/Students';
+import AdminSubjects from './admin/Subjects';
+import AdminSchedules from './admin/Schedules';
+import AdminChats from './admin/Chats';
+import AdminSettings from './admin/Settings';
 
 const theme = createTheme({
   palette: {
@@ -72,6 +79,13 @@ function App() {
               </PrivateRoute>
             }
           />
+          <Route path="/admin" element={<AdminLogin />} />
+          <Route path="/admin/home" element={<AdminHome />} />
+          <Route path="/admin/students" element={<AdminStudents />} />
+          <Route path="/admin/subjects" element={<AdminSubjects />} />
+          <Route path="/admin/schedules" element={<AdminSchedules />} />
+          <Route path="/admin/chats" element={<AdminChats />} />
+          <Route path="/admin/settings" element={<AdminSettings />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Router>
