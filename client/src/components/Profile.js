@@ -2,15 +2,18 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Box, Typography, Paper, Button, Grid, Avatar, TextField, Dialog, DialogTitle, DialogContent, DialogActions, IconButton, Fade, Zoom } from '@mui/material';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import EditIcon from '@mui/icons-material/Edit';
+import QrCodeIcon from '@mui/icons-material/QrCode';
 import MainLayout from '../layouts/MainLayout';
 import axios from 'axios';
 import './Profile.css';
 import { useNavigate } from 'react-router-dom';
 import authService from '../services/authService';
+import { QRCodeSVG } from 'qrcode.react';
 
 function Profile() {
   const [user, setUser] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [showQR, setShowQR] = useState(false);
   const [editData, setEditData] = useState({
     sdt: '',
     email: '',
@@ -233,45 +236,68 @@ function Profile() {
 
             <Grid container spacing={3}>
               {/* Avatar và thông tin cơ bản */}
-              <Grid item xs={12} className="flex justify-center mb-4 relative">
-                <div 
-                  className="avatar-container"
-                  onMouseEnter={() => setIsHovered(true)}
-                  onMouseLeave={() => setIsHovered(false)}
-                >
-                  <Avatar
-                    src={user?.hinhanh ? `${process.env.REACT_APP_API_URL}/images/${user.hinhanh}` : '/default-avatar.png'}
-                    alt="Avatar"
-                    className={`profile-avatar ${isHovered ? 'avatar-hovered' : ''}`}
-                    sx={{ 
-                      width: { xs: 120, sm: 150 }, 
-                      height: { xs: 120, sm: 150 } 
-                    }}
-                  />
-                  <input
-                    accept="image/*"
-                    type="file"
-                    id="icon-button-file"
-                    onChange={handleImageChange}
-                    style={{ display: 'none' }}
-                  />
-                  <Fade in={isHovered}>
-                    <label htmlFor="icon-button-file" className="avatar-upload-button">
-                      <IconButton 
-                        color="primary" 
-                        aria-label="upload picture" 
-                        component="span"
-                        className="bg-white/90 shadow-lg hover:bg-white hover:scale-110 transition-all duration-300"
-                        sx={{ 
-                          width: { xs: 32, sm: 40 }, 
-                          height: { xs: 32, sm: 40 }
-                        }}
-                      >
-                        <PhotoCamera sx={{ fontSize: { xs: 20, sm: 24 } }} />
-                      </IconButton>
-                    </label>
-                  </Fade>
-                </div>
+              <Grid item xs={12} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                  <div 
+                    className="avatar-container"
+                    onMouseEnter={() => setIsHovered(true)}
+                    onMouseLeave={() => setIsHovered(false)}
+                  >
+                    <Avatar
+                      src={user?.hinhanh ? `${process.env.REACT_APP_API_URL}/images/${user.hinhanh}` : '/default-avatar.png'}
+                      alt="Avatar"
+                      className={`profile-avatar ${isHovered ? 'avatar-hovered' : ''}`}
+                      sx={{ 
+                        width: { xs: 120, sm: 150 }, 
+                        height: { xs: 120, sm: 150 } 
+                      }}
+                    />
+                    <input
+                      accept="image/*"
+                      type="file"
+                      id="icon-button-file"
+                      onChange={handleImageChange}
+                      style={{ display: 'none' }}
+                    />
+                    <Fade in={isHovered}>
+                      <label htmlFor="icon-button-file" className="avatar-upload-button">
+                        <IconButton 
+                          color="primary" 
+                          aria-label="upload picture" 
+                          component="span"
+                          className="bg-white/90 shadow-lg hover:bg-white hover:scale-110 transition-all duration-300"
+                          sx={{ 
+                            width: { xs: 32, sm: 40 }, 
+                            height: { xs: 32, sm: 40 }
+                          }}
+                        >
+                          <PhotoCamera sx={{ fontSize: { xs: 20, sm: 24 } }} />
+                        </IconButton>
+                      </label>
+                    </Fade>
+                  </div>
+
+                  {/* QR Code Button */}
+                  <div className="qr-code-button">
+                    <Button
+                      variant="outlined"
+                      startIcon={<QrCodeIcon />}
+                      onClick={() => setShowQR(true)}
+                      sx={{
+                        borderRadius: '20px',
+                        textTransform: 'none',
+                        borderColor: '#1976d2',
+                        color: '#1976d2',
+                        '&:hover': {
+                          borderColor: '#1565c0',
+                          backgroundColor: 'rgba(25, 118, 210, 0.04)'
+                        }
+                      }}
+                    >
+                      Xem QR Code
+                    </Button>
+                  </div>
+                </Box>
               </Grid>
 
               {/* Thông tin chi tiết */}
@@ -330,6 +356,93 @@ function Profile() {
           </Paper>
         </Box>
       </Fade>
+
+      {/* QR Code Dialog */}
+      <Dialog
+        open={showQR}
+        onClose={() => setShowQR(false)}
+        maxWidth="xs"
+        fullWidth
+        PaperProps={{
+          style: {
+            borderRadius: '12px',
+            padding: '16px',
+            margin: '16px'
+          }
+        }}
+      >
+        <DialogTitle
+          style={{
+            textAlign: 'center',
+            fontSize: 'clamp(1.25rem, 4vw, 1.5rem)',
+            fontWeight: 'bold',
+            color: '#1976d2',
+            paddingBottom: '16px',
+            borderBottom: '1px solid #e0e0e0'
+          }}
+        >
+          QR Code Sinh Viên
+        </DialogTitle>
+        <DialogContent style={{ 
+          display: 'flex', 
+          flexDirection: 'column', 
+          alignItems: 'center',
+          padding: '24px'
+        }}>
+          <QRCodeSVG
+            value={`${user?.tensv} - ${user?.masv}`}
+            size={200}
+            level="H"
+            includeMargin={true}
+            style={{
+              padding: '16px',
+              backgroundColor: 'white',
+              borderRadius: '8px',
+              boxShadow: '0 4px 8px rgba(0,0,0,0.1)'
+            }}
+          />
+          <Typography 
+            variant="body1" 
+            style={{ 
+              marginTop: '16px',
+              textAlign: 'center',
+              color: '#666'
+            }}
+          >
+            {user?.tensv}
+          </Typography>
+          <Typography 
+            variant="body2" 
+            style={{ 
+              color: '#1976d2',
+              fontWeight: 500
+            }}
+          >
+            {user?.masv}
+          </Typography>
+        </DialogContent>
+        <DialogActions 
+          style={{
+            padding: '16px',
+            borderTop: '1px solid #e0e0e0',
+            justifyContent: 'center'
+          }}
+        >
+          <Button 
+            onClick={() => setShowQR(false)}
+            variant="contained"
+            color="primary"
+            sx={{
+              borderRadius: '8px',
+              padding: '8px 24px',
+              fontSize: 'clamp(0.875rem, 2vw, 1rem)',
+              textTransform: 'none'
+            }}
+          >
+            Đóng
+          </Button>
+        </DialogActions>
+      </Dialog>
 
       {/* Dialog chỉnh sửa thông tin */}
       <Dialog 

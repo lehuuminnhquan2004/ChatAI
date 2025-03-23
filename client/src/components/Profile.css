@@ -36,6 +36,8 @@
   border-radius: 50%;
   padding: 4px;
   background: linear-gradient(45deg, #1a237e, #3f51b5);
+  margin: 0 auto;
+  width: fit-content;
 }
 
 .profile-avatar {
@@ -194,4 +196,26 @@
   background: linear-gradient(45deg, #1a237e, #3f51b5) !important;
   padding: 8px 24px !important;
   border-radius: 20px !important;
+}
+
+/* QR Code button container */
+.qr-code-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.qr-code-button button {
+  min-width: 150px;
+  padding: 8px 24px;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+  margin: 0 auto;
+}
+
+.qr-code-button button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 } 

@@ -115,7 +115,7 @@ function MainLayout({ children }) {
   const menuItems = [
     { text: 'Trang chủ', icon: <HomeIcon />, path: '/' },
     { text: 'Lịch học', icon: <CalendarIcon />, path: '/schedule' },
-    { text: 'Hồ sơ', icon: <PersonIcon />, path: '/profile' },
+    
   ];
 
   // Component sidebar chứa logo và menu items
