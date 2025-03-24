@@ -24,6 +24,7 @@ import {
   CalendarMonth as CalendarIcon,
   Person as PersonIcon,
   Logout as LogoutIcon,
+  Event as EventIcon,
 } from '@mui/icons-material';
 import authService from '../services/authService';
 
@@ -111,61 +112,21 @@ function MainLayout({ children }) {
     };
   }, [handleLogout]);
 
-  // Định nghĩa các mục menu trong sidebar
+  // Định nghĩa các menu items
   const menuItems = [
     { text: 'Trang chủ', icon: <HomeIcon />, path: '/' },
-    { text: 'Lịch học', icon: <CalendarIcon />, path: '/schedule' },
-    
+    { text: 'Thời khóa biểu', icon: <CalendarIcon />, path: '/schedule' },
   ];
 
-  // Component sidebar chứa logo và menu items
+  // Render drawer
   const drawer = (
-    <div 
-      className="h-full bg-white shadow-sm"
-    >
-      {/* Logo */}
-      <Box 
-        sx={{ 
-          p: 2,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'flex-start',
-          borderBottom: '1px solid #e0e0e0',
-          background: 'linear-gradient(135deg, #1976d2 0%, #2196f3 100%)',
-          color: 'white',
-          height: '64px',
-          position: 'relative'
-        }}
-      >
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'flex-start',
-            width: '100%',
-            pl: 2
-          }}
-        >
-          <img
-            src="/logo.png"
-            alt="Logo"
-            className="w-10 h-auto"
-          />
-          <Typography 
-            variant="h6" 
-            sx={{ 
-              ml: 2,
-              fontWeight: 600,
-              fontSize: '1.1rem',
-              letterSpacing: '0.5px'
-            }}
-          >
-            ChatBox AI
-          </Typography>
-        </Box>
-      </Box>
-      
-      {/* Menu Items */}
+    <div>
+      <Toolbar>
+        <Typography variant="h6" noWrap component="div">
+          Menu
+        </Typography>
+      </Toolbar>
+      <Divider />
       <List sx={{ mt: 2, px: 1 }}>
         {menuItems.map((item) => (
           <ListItem
@@ -290,28 +251,22 @@ function MainLayout({ children }) {
           </Typography>
 
           {/* Avatar và tên user */}
-          <Box sx={{ ml: 'auto' }}>
-            <button
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Typography variant="body1" sx={{ mr: 2, color: '#1976d2' }}>
+              {user?.tensv || 'User'}
+            </Typography>
+            <IconButton
               onClick={handleMenu}
-              className="flex items-center px-2 py-1 bg-blue-600 hover:bg-blue-700 rounded-full transition-all duration-200 shadow-sm hover:shadow-md"
-              style={{ 
-                padding: isMobile ? '4px' : '8px 16px',
-                gap: isMobile ? '0' : '6px'
-              }}
+              size="small"
+              sx={{ ml: 2 }}
+              aria-controls={Boolean(anchorEl) ? 'account-menu' : undefined}
+              aria-haspopup="true"
+              aria-expanded={Boolean(anchorEl) ? 'true' : undefined}
             >
-              <Avatar
-                src={user?.hinhanh ? `${process.env.REACT_APP_API_URL}/images/${user.hinhanh}` : null}
-                alt={user?.tensv}
-                sx={{ 
-                  width: isMobile ? 32 : 36, 
-                  height: isMobile ? 32 : 36, 
-                  border: '2px solid white'
-                }}
-              />
-              <span className="text-white font-medium text-sm" style={{ display: isMobile ? 'none' : 'block' }}>
-                {user?.tensv}
-              </span>
-            </button>
+              <Avatar sx={{ width: 32, height: 32, bgcolor: '#1976d2' }}>
+                {user?.tensv?.[0] || 'U'}
+              </Avatar>
+            </IconButton>
             <Menu
               anchorEl={anchorEl}
               open={Boolean(anchorEl)}

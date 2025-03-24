@@ -31,6 +31,7 @@ import {
   ExitToApp as ExitToAppIcon,
   Notifications as NotificationsIcon,
   Person as PersonIcon,
+  Event as EventIcon,
 } from '@mui/icons-material';
 
 const drawerWidth = 280;
@@ -40,6 +41,7 @@ const menuItems = [
   { text: 'Quản lý sinh viên', icon: <PeopleIcon />, path: '/admin/students' },
   { text: 'Quản lý môn học', icon: <BookIcon />, path: '/admin/subjects' },
   { text: 'Quản lý lịch học', icon: <ScheduleIcon />, path: '/admin/schedules' },
+  { text: 'Quản lý sự kiện', icon: <EventIcon />, path: '/admin/events' },
   { text: 'Lịch sử chat', icon: <ChatIcon />, path: '/admin/chats' },
   { text: 'Cài đặt', icon: <SettingsIcon />, path: '/admin/settings' },
 ];

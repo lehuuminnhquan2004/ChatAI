@@ -118,6 +118,17 @@ router.get('/stats', authenticateAdmin, async (req, res) => {
     const [chatsResult] = await connection.query('SELECT COUNT(*) as total FROM lichsuchat');
     const totalChats = chatsResult[0].total;
 
+    // Thống kê chi tiết về sự kiện
+    const eventStatsQuery = `
+      SELECT 
+        COUNT(*) as total,
+        SUM(CASE WHEN thoigianbatdau > NOW() THEN 1 ELSE 0 END) as upcoming,
+        SUM(CASE WHEN thoigianketthuc < NOW() THEN 1 ELSE 0 END) as past
+      FROM sukien
+    `;
+    
+    const [eventStats] = await connection.query(eventStatsQuery);
+
     connection.release();
 
     res.json({
@@ -126,7 +137,12 @@ router.get('/stats', authenticateAdmin, async (req, res) => {
         totalStudents,
         totalSubjects,
         totalSchedules,
-        totalChats
+        totalChats,
+        eventStats: {
+          total: eventStats[0].total || 0,
+          upcoming: eventStats[0].upcoming || 0,
+          past: eventStats[0].past || 0
+        }
       }
     });
   } catch (error) {

@@ -18,6 +18,8 @@ import AdminSubjects from './admin/Subjects';
 import AdminSchedules from './admin/Schedules';
 import AdminChats from './admin/Chats';
 import AdminSettings from './admin/Settings';
+import Events from './admin/Events';
+import StudentEvents from './components/Events';
 
 const theme = createTheme({
   palette: {
@@ -60,6 +62,16 @@ function App() {
             }
           />
           <Route
+            path="/events"
+            element={
+              <PrivateRoute>
+                <MainLayout>
+                  <StudentEvents />
+                </MainLayout>
+              </PrivateRoute>
+            }
+          />
+          <Route
             path="/profile"
             element={
               <PrivateRoute>
@@ -84,6 +96,7 @@ function App() {
           <Route path="/admin/students" element={<AdminStudents />} />
           <Route path="/admin/subjects" element={<AdminSubjects />} />
           <Route path="/admin/schedules" element={<AdminSchedules />} />
+          <Route path="/admin/events" element={<Events />} />
           <Route path="/admin/chats" element={<AdminChats />} />
           <Route path="/admin/settings" element={<AdminSettings />} />
           <Route path="*" element={<Navigate to="/" replace />} />

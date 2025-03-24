@@ -39,7 +39,7 @@ router.get('/:masv', async (req, res) => {
       SELECT 
         lh.*,
         mh.tenmh,
-        mh.giangvien,
+        mh.tailieu as giangvien,
         CASE 
           WHEN lh.Ca = 1 THEN '7:00 - 9:30'
           WHEN lh.Ca = 2 THEN '9:35 - 12:05'

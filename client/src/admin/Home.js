@@ -7,13 +7,22 @@ import {
   Typography,
   Card,
   CardContent,
-  CircularProgress
+  CircularProgress,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Divider
 } from '@mui/material';
 import {
   People as PeopleIcon,
   School as SchoolIcon,
   Event as EventIcon,
   Chat as ChatIcon,
+  EmojiEvents as EmojiEventsIcon,
+  School as DRLIcon
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -24,7 +33,14 @@ function AdminHome() {
     totalStudents: 0,
     totalSubjects: 0,
     totalSchedules: 0,
-    totalChats: 0
+    totalChats: 0,
+    totalEvents: 0,
+    eventStats: {
+      upcomingEvents: 0,
+      pastEvents: 0,
+      totalCTXH: 0,
+      totalDRL: 0
+    }
   });
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -144,7 +160,54 @@ function AdminHome() {
             </Paper>
           </Grid>
 
-          {/* Các phần quản lý khác có thể thêm ở đây */}
+          {/* Thêm phần thống kê chi tiết sự kiện */}
+          <Grid item xs={12}>
+            <Paper sx={{ p: 3 }}>
+              <Typography variant="h5" gutterBottom sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                <EventIcon color="primary" />
+                Thống kê sự kiện
+              </Typography>
+              <Divider sx={{ my: 2 }} />
+              <Grid container spacing={3}>
+                <Grid item xs={12} sm={4}>
+                  <Card sx={{ height: '100%', bgcolor: 'info.lighter' }}>
+                    <CardContent>
+                      <Typography variant="subtitle1" color="info.dark" gutterBottom>
+                        Tổng số sự kiện
+                      </Typography>
+                      <Typography variant="h4" color="info.main">
+                        {stats.eventStats?.total || 0}
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <Card sx={{ height: '100%', bgcolor: 'primary.lighter' }}>
+                    <CardContent>
+                      <Typography variant="subtitle1" color="primary.dark" gutterBottom>
+                        Sự kiện sắp diễn ra
+                      </Typography>
+                      <Typography variant="h4" color="primary.main">
+                        {stats.eventStats?.upcoming || 0}
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <Card sx={{ height: '100%', bgcolor: 'success.lighter' }}>
+                    <CardContent>
+                      <Typography variant="subtitle1" color="success.dark" gutterBottom>
+                        Sự kiện đã kết thúc
+                      </Typography>
+                      <Typography variant="h4" color="success.main">
+                        {stats.eventStats?.past || 0}
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+              </Grid>
+            </Paper>
+          </Grid>
         </Grid>
       </Container>
     </AdminLayout>

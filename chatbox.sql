@@ -211,8 +211,22 @@ CREATE TABLE `sukien` (
   `hinhanh` varchar(50) DEFAULT NULL,
   `thoigianbatdau` datetime NOT NULL,
   `thoigianketthuc` datetime NOT NULL,
-  `ctxh` double NOT NULL
+  `ctxh` double NOT NULL CHECK (`ctxh` >= 0),
+  `drl` int(11) DEFAULT NULL CHECK (`drl` >= 0)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `sukien`
+--
+
+INSERT INTO `sukien` (`mask`, `tensk`, `noidung`, `hinhanh`, `thoigianbatdau`, `thoigianketthuc`, `ctxh`, `drl`) VALUES
+('SK001', 'Hiến máu nhân đạo', 'Chương trình hiến máu nhân đạo tại trường', 'hienmau.jpg', '2025-04-01 08:00:00', '2025-04-01 16:00:00', 8, 10),
+('SK002', 'Dọn vệ sinh môi trường', 'Dọn dẹp, làm sạch khuôn viên trường', 'vesinh.jpg', '2025-04-15 07:30:00', '2025-04-15 11:30:00', 4, 5),
+('SK003', 'Workshop Kỹ năng mềm', 'Hội thảo về kỹ năng giao tiếp và làm việc nhóm', 'workshop.jpg', '2025-04-20 13:30:00', '2025-04-20 16:30:00', 3, 5),
+('SK004', 'Ngày hội việc làm', 'Kết nối doanh nghiệp và sinh viên', 'job.jpg', '2025-05-01 08:00:00', '2025-05-01 17:00:00', 8, 10),
+('SK005', 'Giải bóng đá sinh viên', 'Giải bóng đá giao hữu giữa các khoa', 'football.jpg', '2025-05-10 07:00:00', '2025-05-10 17:00:00', 8, 10);
+
+-- --------------------------------------------------------
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -318,6 +332,7 @@ ALTER TABLE `lichsuchat`
 ALTER TABLE `nhachen`
   ADD CONSTRAINT `fk_nhachen_sinhvien` FOREIGN KEY (`masv`) REFERENCES `sinhvien` (`masv`),
   ADD CONSTRAINT `fk_sukien` FOREIGN KEY (`mask`) REFERENCES `sukien` (`mask`);
+
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -9,6 +9,7 @@ const chatRoutes = require('./routes/chatbox');
 const scheduleRoutes = require('./routes/schedule');
 const studentRoutes = require('./routes/students');
 const adminRoutes = require('./routes/admin');
+const eventRoutes = require('./routes/events');
 
 // Cấu hình dotenv để sử dụng biến môi trường từ file .env
 dotenv.config();
@@ -49,6 +50,7 @@ app.use('/api/chat', chatRoutes);
 app.use('/api/schedule', scheduleRoutes);
 app.use('/api/students', studentRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/events', eventRoutes);
 
 // Xử lý các yêu cầu không tìm thấy (404)
 app.use((req, res, next) => {
