@@ -39,7 +39,7 @@ router.get('/:masv', async (req, res) => {
       SELECT 
         lh.*,
         mh.tenmh,
-        mh.tailieu as giangvien,
+        mh.giangvien,
         CASE 
           WHEN lh.Ca = 1 THEN '7:00 - 9:30'
           WHEN lh.Ca = 2 THEN '9:35 - 12:05'
@@ -49,6 +49,7 @@ router.get('/:masv', async (req, res) => {
         END as thoigianhoc
       FROM lichhoc lh
       JOIN monhoc mh ON lh.mamh = mh.mamh
+      JOIN giangvien gv ON lh.magv = gv.magv
       WHERE lh.masv = ?
       ORDER BY lh.Thu, lh.Ca
     `;
