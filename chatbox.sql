@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th3 21, 2025 lúc 07:58 PM
+-- Thời gian đã tạo: Th3 24, 2025 lúc 06:35 AM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -42,6 +42,27 @@ INSERT INTO `admin` (`name`, `password`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Cấu trúc bảng cho bảng `giangvien`
+--
+
+CREATE TABLE `giangvien` (
+  `magv` varchar(50) NOT NULL,
+  `tengv` varchar(50) NOT NULL,
+  `sdt` varchar(10) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `zalo` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `giangvien`
+--
+
+INSERT INTO `giangvien` (`magv`, `tengv`, `sdt`, `email`, `zalo`) VALUES
+('GV01', 'Viễn Anh Tho', '0283748228', 'vienanhtho@gmail.com', NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Cấu trúc bảng cho bảng `lichhoc`
 --
 
@@ -52,6 +73,7 @@ CREATE TABLE `lichhoc` (
   `phong` varchar(10) NOT NULL,
   `masv` varchar(50) NOT NULL,
   `mamh` varchar(50) NOT NULL,
+  `magv` varchar(50) NOT NULL,
   `ngaybatdau` date NOT NULL,
   `ngayketthuc` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -60,15 +82,15 @@ CREATE TABLE `lichhoc` (
 -- Đang đổ dữ liệu cho bảng `lichhoc`
 --
 
-INSERT INTO `lichhoc` (`STT`, `Thu`, `Ca`, `phong`, `masv`, `mamh`, `ngaybatdau`, `ngayketthuc`) VALUES
-(1, 4, 3, '803', 'DH52201286', '001', '2025-03-18', '2025-04-18'),
-(3, 6, 1, '807', 'DH52201286', '003', '2025-03-18', '2025-04-18'),
-(4, 2, 1, '607', 'DH52201105', '001', '2025-03-18', '2025-04-18'),
-(5, 3, 3, '707', 'DH52201105', '002', '2025-03-18', '2025-04-18'),
-(6, 6, 4, '807', 'DH52201105', '003', '2025-03-18', '2025-04-18'),
-(7, 7, 1, '808', 'DH52201286', '004', '2025-02-18', '2025-04-18'),
-(8, 7, 1, '808', 'DH52201105', '004', '2025-02-18', '2025-04-18'),
-(9, 7, 2, '808', 'DH52201105', '005', '2025-02-18', '2025-04-18');
+INSERT INTO `lichhoc` (`STT`, `Thu`, `Ca`, `phong`, `masv`, `mamh`, `magv`, `ngaybatdau`, `ngayketthuc`) VALUES
+(1, 4, 3, '803', 'DH52201286', '001', 'GV01', '2025-03-18', '2025-04-18'),
+(3, 6, 1, '807', 'DH52201286', '003', 'GV01', '2025-03-18', '2025-04-18'),
+(4, 2, 1, '607', 'DH52201105', '001', 'GV01', '2025-03-18', '2025-04-18'),
+(5, 3, 3, '707', 'DH52201105', '002', 'GV01', '2025-03-18', '2025-04-18'),
+(6, 6, 4, '807', 'DH52201105', '003', 'GV01', '2025-03-18', '2025-04-18'),
+(7, 7, 1, '808', 'DH52201286', '004', 'GV01', '2025-02-18', '2025-04-18'),
+(8, 7, 1, '808', 'DH52201105', '004', 'GV01', '2025-02-18', '2025-04-18'),
+(9, 7, 2, '808', 'DH52201105', '005', 'GV01', '2025-02-18', '2025-04-18');
 
 -- --------------------------------------------------------
 
@@ -105,7 +127,9 @@ INSERT INTO `lichsuchat` (`id`, `masv`, `nguoidung_chat`, `ai_rep`, `thoigiancha
 (104, 'DH52201105', 'Xin chào bạn.', 'Chào Yến Ngọc.\n', '2025-03-21 23:52:33'),
 (105, 'DH52201105', 'Hôm nay tôi có muốn gì không?', 'Chào Yến Ngọc, hôm nay bạn có môn CSS lúc 15h tại phòng 807 nhé.\n', '2025-03-21 23:52:45'),
 (106, 'DH52201286', 'xin chào bạn mấy giờ rồi', 'Chào Quân, hiện tại là 23:59.\n', '2025-03-21 23:59:59'),
-(107, 'DH52201105', 'xin chào bạn tôi tên gì bạn nhỉ', 'Chào Yến Ngọc.\n', '2025-03-22 01:46:33');
+(107, 'DH52201105', 'xin chào bạn tôi tên gì bạn nhỉ', 'Chào Yến Ngọc.\n', '2025-03-22 01:46:33'),
+(108, 'DH52201286', 'hello', 'Chào Quân, cần gì nữa không?\n', '2025-03-23 15:29:02'),
+(109, 'DH52201105', 'hôm nay là thứ mấy', 'Chào Yến Ngọc, hôm nay là Chủ Nhật.\n', '2025-03-23 17:33:14');
 
 -- --------------------------------------------------------
 
@@ -116,14 +140,14 @@ INSERT INTO `lichsuchat` (`id`, `masv`, `nguoidung_chat`, `ai_rep`, `thoigiancha
 CREATE TABLE `monhoc` (
   `mamh` varchar(50) NOT NULL,
   `tenmh` varchar(50) NOT NULL,
-  `giangvien` varchar(50) NOT NULL
+  `tailieu` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `monhoc`
 --
 
-INSERT INTO `monhoc` (`mamh`, `tenmh`, `giangvien`) VALUES
+INSERT INTO `monhoc` (`mamh`, `tenmh`, `tailieu`) VALUES
 ('001', 'HTML', 'Quan Le Huu Minh'),
 ('002', 'JavaScript', 'QuanDepTrai'),
 ('003', 'CSS', 'Viễn Anh Tho'),
@@ -138,20 +162,9 @@ INSERT INTO `monhoc` (`mamh`, `tenmh`, `giangvien`) VALUES
 
 CREATE TABLE `nhachen` (
   `STT` int(11) NOT NULL,
-  `tennh` varchar(50) NOT NULL,
-  `ngaybatdau` datetime NOT NULL,
-  `ngayketthuc` datetime NOT NULL,
+  `mask` varchar(50) NOT NULL,
   `masv` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Đang đổ dữ liệu cho bảng `nhachen`
---
-
-INSERT INTO `nhachen` (`STT`, `tennh`, `ngaybatdau`, `ngayketthuc`, `masv`) VALUES
-(0, 'đi ngủ', '2025-03-06 00:42:00', '2025-03-29 00:42:00', 'DH52201287'),
-(1, 'làm bài tập HTML', '2025-03-11 14:30:45', '2025-03-17 14:30:45', 'DH52201286'),
-(2, 'làm bài tập Javascript', '2025-03-11 14:30:45', '2025-03-20 14:30:45', 'DH52201105');
 
 -- --------------------------------------------------------
 
@@ -169,20 +182,37 @@ CREATE TABLE `sinhvien` (
   `chuyennganh` varchar(50) NOT NULL,
   `sdt` int(10) NOT NULL,
   `email` varchar(100) NOT NULL,
-  `hinhanh` varchar(255) DEFAULT NULL
+  `hinhanh` varchar(255) DEFAULT NULL,
+  `ctxh` int(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `sinhvien`
 --
 
-INSERT INTO `sinhvien` (`masv`, `password`, `tensv`, `ngaysinh`, `gioitinh`, `lop`, `chuyennganh`, `sdt`, `email`, `hinhanh`) VALUES
-('DH52201105', 'yenngoc0102', 'Đinh Dương Yến Ngọc', '2004-02-01', 'Nu', 'D22_TH15', 'CNTT', 379261508, 'dinhduongyenngoc@gmail.com', 'DH52201105.jpg'),
-('DH52201209', '123456789', 'Nguyễn Văn B', '2025-03-21', 'nu', 'D22_TH14', 'QTKD', 453628823, 'voanhthien@gmail.com', NULL),
-('DH52201286', 'quanle2004', 'Lê Hữu Minh Quân', '2004-04-26', 'Nam', 'D22_TH15', 'CNTT', 328421191, 'lehuuminhquan2004@gmail.com', 'DH52201286.jpg'),
-('DH52201287', 'quanle2004', 'Viễn Anh Tho', '2004-03-12', 'nu', 'D22_TH14', 'QTKD', 372482218, 'voanhthien@gmail.com', NULL),
-('DH52201288', 'quanle2004', 'Viễn Anh Thôn', '2003-02-11', 'nu', 'D22_TH15', 'CNTT', 372482218, 'voanht2222hien@gmail.com', NULL),
-('DH52201289', 'helloword', 'Nguyễn Văn A', '2004-01-08', 'nu', 'D22_TH15', 'CNTT', 453628823, 'voanhthien@gmail.com', NULL);
+INSERT INTO `sinhvien` (`masv`, `password`, `tensv`, `ngaysinh`, `gioitinh`, `lop`, `chuyennganh`, `sdt`, `email`, `hinhanh`, `ctxh`) VALUES
+('DH52201105', 'yenngoc0102', 'Đinh Dương Yến Ngọc', '2004-02-01', 'Nu', 'D22_TH15', 'CNTT', 328421191, 'dinhduongyenngoc@gmail.com', 'undefined_1742666729663.jpg', NULL),
+('DH52201209', '123456789', 'Nguyễn Văn B', '2025-03-21', 'nu', 'D22_TH14', 'QTKD', 453628823, 'voanhthien@gmail.com', NULL, NULL),
+('DH52201286', 'quanle2004', 'Lê Hữu Minh Quân', '2004-04-26', 'Nam', 'D22_TH15', 'CNTT', 328421191, 'lehuuminhquan2004@gmail.com', 'undefined_1742736081560.jpg', NULL),
+('DH52201287', 'quanle2004', 'Viễn Anh Tho', '2004-03-12', 'nu', 'D22_TH14', 'QTKD', 372482218, 'voanhthien@gmail.com', NULL, NULL),
+('DH52201288', 'quanle2004', 'Viễn Anh Thôn', '2003-02-11', 'nu', 'D22_TH15', 'CNTT', 372482218, 'voanht2222hien@gmail.com', NULL, NULL),
+('DH52201289', 'helloword', 'Nguyễn Văn A', '2004-01-08', 'nu', 'D22_TH15', 'CNTT', 453628823, 'voanhthien@gmail.com', NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `sukien`
+--
+
+CREATE TABLE `sukien` (
+  `mask` varchar(50) NOT NULL,
+  `tensk` varchar(50) NOT NULL,
+  `noidung` varchar(255) NOT NULL,
+  `hinhanh` varchar(50) DEFAULT NULL,
+  `thoigianbatdau` datetime NOT NULL,
+  `thoigianketthuc` datetime NOT NULL,
+  `ctxh` double NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -195,12 +225,19 @@ ALTER TABLE `admin`
   ADD PRIMARY KEY (`name`);
 
 --
+-- Chỉ mục cho bảng `giangvien`
+--
+ALTER TABLE `giangvien`
+  ADD PRIMARY KEY (`magv`);
+
+--
 -- Chỉ mục cho bảng `lichhoc`
 --
 ALTER TABLE `lichhoc`
   ADD PRIMARY KEY (`STT`),
   ADD KEY `fk_sinhvien` (`masv`),
-  ADD KEY `fk_monhoc` (`mamh`);
+  ADD KEY `fk_monhoc` (`mamh`),
+  ADD KEY `fk_giangvien` (`magv`);
 
 --
 -- Chỉ mục cho bảng `lichsuchat`
@@ -220,13 +257,20 @@ ALTER TABLE `monhoc`
 --
 ALTER TABLE `nhachen`
   ADD PRIMARY KEY (`STT`),
-  ADD KEY `fk_nhachen_sinhvien` (`masv`);
+  ADD KEY `fk_nhachen_sinhvien` (`masv`),
+  ADD KEY `fk_sukien` (`mask`);
 
 --
 -- Chỉ mục cho bảng `sinhvien`
 --
 ALTER TABLE `sinhvien`
   ADD PRIMARY KEY (`masv`);
+
+--
+-- Chỉ mục cho bảng `sukien`
+--
+ALTER TABLE `sukien`
+  ADD PRIMARY KEY (`mask`);
 
 --
 -- AUTO_INCREMENT cho các bảng đã đổ
@@ -242,7 +286,13 @@ ALTER TABLE `lichhoc`
 -- AUTO_INCREMENT cho bảng `lichsuchat`
 --
 ALTER TABLE `lichsuchat`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=108;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=110;
+
+--
+-- AUTO_INCREMENT cho bảng `nhachen`
+--
+ALTER TABLE `nhachen`
+  MODIFY `STT` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Các ràng buộc cho các bảng đã đổ
@@ -252,6 +302,7 @@ ALTER TABLE `lichsuchat`
 -- Các ràng buộc cho bảng `lichhoc`
 --
 ALTER TABLE `lichhoc`
+  ADD CONSTRAINT `fk_giangvien` FOREIGN KEY (`magv`) REFERENCES `giangvien` (`magv`),
   ADD CONSTRAINT `fk_monhoc` FOREIGN KEY (`mamh`) REFERENCES `monhoc` (`mamh`),
   ADD CONSTRAINT `fk_sinhvien` FOREIGN KEY (`masv`) REFERENCES `sinhvien` (`masv`);
 
@@ -265,7 +316,8 @@ ALTER TABLE `lichsuchat`
 -- Các ràng buộc cho bảng `nhachen`
 --
 ALTER TABLE `nhachen`
-  ADD CONSTRAINT `fk_nhachen_sinhvien` FOREIGN KEY (`masv`) REFERENCES `sinhvien` (`masv`);
+  ADD CONSTRAINT `fk_nhachen_sinhvien` FOREIGN KEY (`masv`) REFERENCES `sinhvien` (`masv`),
+  ADD CONSTRAINT `fk_sukien` FOREIGN KEY (`mask`) REFERENCES `sukien` (`mask`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
