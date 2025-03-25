@@ -33,7 +33,6 @@ import {
   AccessTime as AccessTimeIcon,
   EmojiEvents as EmojiEventsIcon,
   School as SchoolIcon,
-  Description as DescriptionIcon,
   Image as ImageIcon,
   NoPhotography as NoPhotoIcon
 } from '@mui/icons-material';

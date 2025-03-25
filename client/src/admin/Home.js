@@ -8,21 +8,13 @@ import {
   Card,
   CardContent,
   CircularProgress,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
   Divider
 } from '@mui/material';
 import {
   People as PeopleIcon,
   School as SchoolIcon,
   Event as EventIcon,
-  Chat as ChatIcon,
-  EmojiEvents as EmojiEventsIcon,
-  School as DRLIcon
+  Chat as ChatIcon
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';

@@ -30,10 +30,8 @@ const API_URL = process.env.REACT_APP_API_URL;
 function SchedulePage() {
   const [schedule, setSchedule] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [currentWeek, setCurrentWeek] = useState(0);
   const [summary, setSummary] = useState(null);
-  const [targetWeek, setTargetWeek] = useState(new Date());
   const [resizeKey, setResizeKey] = useState(0);
   const user = authService.getUser();
 
