@@ -30,8 +30,11 @@ const API_URL = process.env.REACT_APP_API_URL;
 function SchedulePage() {
   const [schedule, setSchedule] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [currentWeek, setCurrentWeek] = useState(0);
   const [summary, setSummary] = useState(null);
+  const [targetWeek, setTargetWeek] = useState(new Date());
+  const [resizeKey, setResizeKey] = useState(0);
   const user = authService.getUser();
 
   useEffect(() => {
@@ -79,6 +82,23 @@ function SchedulePage() {
 
     fetchSchedule();
   }, [user?.masv]);
+
+  // Thêm useEffect để xử lý ResizeObserver
+  useEffect(() => {
+    let timeoutId;
+    const handleResize = () => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        setResizeKey(prev => prev + 1);
+      }, 100);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      clearTimeout(timeoutId);
+    };
+  }, []);
 
   // Tạo mảng 4x7 để lưu thời khóa biểu (4 ca x 7 ngày)
   const createScheduleMatrix = useCallback(() => {
@@ -187,14 +207,17 @@ function SchedulePage() {
   const days = ['Thứ hai', 'Thứ ba', 'Thứ tư', 'Thứ năm', 'Thứ sáu', 'Thứ bảy', 'Chủ nhật'];
 
   return (
-    <Box sx={{ 
-      p: { xs: 1, sm: 2 },
-      maxWidth: '1200px',
-      margin: '0 auto',
-      overflowX: 'auto',
-      backgroundColor: '#f5f5f5',
-      minHeight: 'calc(100vh - 64px)'
-    }}>
+    <Box 
+      key={resizeKey}
+      sx={{ 
+        p: { xs: 1, sm: 2 },
+        maxWidth: '1200px',
+        margin: '0 auto',
+        overflowX: 'auto',
+        backgroundColor: '#f5f5f5',
+        minHeight: 'calc(100vh - 64px)'
+      }}
+    >
       <Card sx={{ mb: { xs: 2, sm: 3 }, borderRadius: 2, boxShadow: 2 }}>
         <CardContent sx={{ p: { xs: 1.5, sm: 2 } }}>
           <Box sx={{ 
