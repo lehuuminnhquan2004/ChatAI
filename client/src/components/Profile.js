@@ -309,6 +309,7 @@ function Profile() {
                   <InfoRow label="Giới tính" value={user?.gioitinh} />
                   <InfoRow label="Ngày sinh" value={user?.ngaysinh} />
                   <InfoRow label="Chuyên ngành" value={user?.chuyennganh} />
+                  <InfoRow label="Ngày công tác xã hội" value={user?.ctxh ? user.ctxh : '0'} />
                   <InfoRow 
                     label="Số điện thoại" 
                     value={user?.sdt}

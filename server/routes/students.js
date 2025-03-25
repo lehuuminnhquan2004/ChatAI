@@ -86,7 +86,7 @@ router.get('/:masv', authenticateToken, async (req, res) => {
 
     // Lấy thông tin sinh viên từ database
     const [results] = await pool.execute(
-      'SELECT masv, tensv, lop, gioitinh, ngaysinh, chuyennganh, sdt, email, hinhanh FROM sinhvien WHERE masv = ?',
+      'SELECT masv, tensv, lop, gioitinh, ngaysinh, chuyennganh, sdt, email, ctxh, hinhanh FROM sinhvien WHERE masv = ?',
       [masv]
     );
 
