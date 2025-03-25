@@ -40,6 +40,10 @@ function Profile() {
         return;
       }
 
+      // Lấy thông tin isAdmin từ token
+      const tokenData = JSON.parse(atob(token.split('.')[1]));
+      const isAdmin = tokenData.isAdmin;
+
       const response = await axios.get(
         `${process.env.REACT_APP_API_URL}/api/students/${storedUser.masv}`,
         {
@@ -50,7 +54,10 @@ function Profile() {
       );
       
       if (response.data.success) {
-        const userData = response.data.user;
+        const userData = {
+          ...response.data.user,
+          isAdmin
+        };
         setUser(userData);
         setEditData({
           sdt: userData.sdt || '',
@@ -123,9 +130,9 @@ function Profile() {
       }
 
       // Validate phone number
-      const phoneRegex = /^[0-9]{10}$/;
+      const phoneRegex = /^[0-9]+$/;
       if (!phoneRegex.test(editData.sdt)) {
-        setError('Số điện thoại không hợp lệ (phải có 10 chữ số)');
+        setError('Số điện thoại không hợp lệ (chỉ được chứa chữ số)');
         setTimeout(() => setError(''), 3000);
         return;
       }
@@ -352,6 +359,20 @@ function Profile() {
                 >
                   Đổi mật khẩu
                 </Button>
+                {user?.isAdmin && (
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={() => navigate('/admin/home')}
+                    className="action-button admin-button w-full sm:w-auto"
+                    sx={{ 
+                      fontSize: { xs: '0.875rem', sm: '1rem' },
+                      padding: { xs: '6px 12px', sm: '8px 16px' }
+                    }}
+                  >
+                    Trang Quản Trị
+                  </Button>
+                )}
               </Grid>
             </Grid>
           </Paper>
@@ -581,9 +602,7 @@ function InfoRow({ label, value, editable, onClick }) {
   // Hàm format số điện thoại
   const formatPhone = (phone) => {
     if (!phone) return '';
-    // Chuyển số điện thoại thành chuỗi và thêm số 0 vào trước nếu cần
-    const phoneStr = phone.toString();
-    return phoneStr.startsWith('0') ? phoneStr : `0${phoneStr}`;
+    return phone.toString();
   };
 
   // Xử lý giá trị hiển thị

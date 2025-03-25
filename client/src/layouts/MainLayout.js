@@ -100,7 +100,7 @@ function MainLayout({ children }) {
     checkToken();
 
     // Thiết lập interval để kiểm tra token mỗi 30 giây
-    intervalId = setInterval(checkToken, 30000);
+    intervalId = setInterval(checkToken, 60000);
 
     // Cleanup function
     return () => {

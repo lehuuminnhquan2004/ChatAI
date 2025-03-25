@@ -11,7 +11,6 @@ import ForgotPassword from './components/ForgotPassword';
 import SchedulePage from './pages/SchedulePage';
 import Profile from './components/Profile';
 import ChangePassword from './components/ChangePassword';
-import AdminLogin from './admin/Login';
 import AdminHome from './admin/Home';
 import AdminStudents from './admin/Students';
 import AdminSubjects from './admin/Subjects';
@@ -91,14 +90,63 @@ function App() {
               </PrivateRoute>
             }
           />
-          <Route path="/admin" element={<AdminLogin />} />
-          <Route path="/admin/home" element={<AdminHome />} />
-          <Route path="/admin/students" element={<AdminStudents />} />
-          <Route path="/admin/subjects" element={<AdminSubjects />} />
-          <Route path="/admin/schedules" element={<AdminSchedules />} />
-          <Route path="/admin/events" element={<Events />} />
-          <Route path="/admin/chats" element={<AdminChats />} />
-          <Route path="/admin/settings" element={<AdminSettings />} />
+          {/* Admin Routes */}
+          <Route
+            path="/admin/home"
+            element={
+              <PrivateRoute requireAdmin>
+                <AdminHome />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/admin/students"
+            element={
+              <PrivateRoute requireAdmin>
+                <AdminStudents />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/admin/subjects"
+            element={
+              <PrivateRoute requireAdmin>
+                <AdminSubjects />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/admin/schedules"
+            element={
+              <PrivateRoute requireAdmin>
+                <AdminSchedules />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/admin/events"
+            element={
+              <PrivateRoute requireAdmin>
+                <Events />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/admin/chats"
+            element={
+              <PrivateRoute requireAdmin>
+                <AdminChats />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/admin/settings"
+            element={
+              <PrivateRoute requireAdmin>
+                <AdminSettings />
+              </PrivateRoute>
+            }
+          />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Router>

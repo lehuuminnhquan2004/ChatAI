@@ -27,9 +27,17 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ success: false, message: 'Mật khẩu không chính xác' });
     }
 
+    // Kiểm tra xem sinh viên có phải là admin không
+    const [admins] = await pool.execute(
+      'SELECT * FROM admin WHERE masv = ?',
+      [masv]
+    );
+
+    const isAdmin = admins.length > 0;
+
     // Tạo JWT token
     const token = jwt.sign(
-      { masv: sinhvien.masv },
+      { masv: sinhvien.masv, isAdmin },
       JWT_SECRET,
       { expiresIn: TOKEN_EXPIRATION }
     );
@@ -45,7 +53,8 @@ router.post('/login', async (req, res) => {
         tensv: sinhvien.tensv,
         lop: sinhvien.lop,
         chuyennganh: sinhvien.chuyennganh,
-        hinhanh: sinhvien.hinhanh
+        hinhanh: sinhvien.hinhanh,
+        isAdmin
       }
     });
   } catch (error) {

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th3 24, 2025 lúc 06:35 AM
+-- Thời gian đã tạo: Th3 25, 2025 lúc 06:30 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -28,16 +28,16 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `admin` (
-  `name` varchar(50) NOT NULL,
-  `password` varchar(255) NOT NULL
+  `STT` int(10) NOT NULL,
+  `masv` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `admin`
 --
 
-INSERT INTO `admin` (`name`, `password`) VALUES
-('admin', 'admin');
+INSERT INTO `admin` (`STT`, `masv`) VALUES
+(2, 'DH52201286');
 
 -- --------------------------------------------------------
 
@@ -180,10 +180,10 @@ CREATE TABLE `sinhvien` (
   `gioitinh` varchar(10) NOT NULL,
   `lop` varchar(10) NOT NULL,
   `chuyennganh` varchar(50) NOT NULL,
-  `sdt` int(10) NOT NULL,
+  `sdt` varchar(11) NOT NULL,
   `email` varchar(100) NOT NULL,
   `hinhanh` varchar(255) DEFAULT NULL,
-  `ctxh` int(10) DEFAULT NULL
+  `ctxh` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -191,12 +191,12 @@ CREATE TABLE `sinhvien` (
 --
 
 INSERT INTO `sinhvien` (`masv`, `password`, `tensv`, `ngaysinh`, `gioitinh`, `lop`, `chuyennganh`, `sdt`, `email`, `hinhanh`, `ctxh`) VALUES
-('DH52201105', 'yenngoc0102', 'Đinh Dương Yến Ngọc', '2004-02-01', 'Nu', 'D22_TH15', 'CNTT', 328421191, 'dinhduongyenngoc@gmail.com', 'undefined_1742666729663.jpg', NULL),
-('DH52201209', '123456789', 'Nguyễn Văn B', '2025-03-21', 'nu', 'D22_TH14', 'QTKD', 453628823, 'voanhthien@gmail.com', NULL, NULL),
-('DH52201286', 'quanle2004', 'Lê Hữu Minh Quân', '2004-04-26', 'Nam', 'D22_TH15', 'CNTT', 328421191, 'lehuuminhquan2004@gmail.com', 'undefined_1742736081560.jpg', NULL),
-('DH52201287', 'quanle2004', 'Viễn Anh Tho', '2004-03-12', 'nu', 'D22_TH14', 'QTKD', 372482218, 'voanhthien@gmail.com', NULL, NULL),
-('DH52201288', 'quanle2004', 'Viễn Anh Thôn', '2003-02-11', 'nu', 'D22_TH15', 'CNTT', 372482218, 'voanht2222hien@gmail.com', NULL, NULL),
-('DH52201289', 'helloword', 'Nguyễn Văn A', '2004-01-08', 'nu', 'D22_TH15', 'CNTT', 453628823, 'voanhthien@gmail.com', NULL, NULL);
+('DH52201105', 'yenngoc0102', 'Đinh Dương Yến Ngọc', '2004-02-01', 'Nu', 'D22_TH15', 'CNTT', '328421191', 'dinhduongyenngoc@gmail.com', 'undefined_1742666729663.jpg', 0),
+('DH52201209', '123456789', 'Nguyễn Văn B', '2025-03-21', 'nu', 'D22_TH14', 'QTKD', '453628823', 'voanhthien@gmail.com', NULL, 0),
+('DH52201286', 'quanle2004', 'Lê Hữu Minh Quân', '2004-04-26', 'Nam', 'D22_TH15', 'CNTT', '328421191', 'lehuuminhquan2004@gmail.com', 'undefined_1742736081560.jpg', 0),
+('DH52201287', 'quanle2004', 'Viễn Anh Tho', '2004-03-12', 'nu', 'D22_TH14', 'QTKD', '372482218', 'voanhthien@gmail.com', NULL, 0),
+('DH52201288', 'quanle2004', 'Viễn Anh Thôn', '2003-02-11', 'nu', 'D22_TH15', 'CNTT', '372482218', 'voanht2222hien@gmail.com', NULL, 0),
+('DH52201289', 'helloword', 'Nguyễn Văn A', '2004-01-08', 'nu', 'D22_TH15', 'CNTT', '453628823', 'voanhthien@gmail.com', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -220,13 +220,12 @@ CREATE TABLE `sukien` (
 --
 
 INSERT INTO `sukien` (`mask`, `tensk`, `noidung`, `hinhanh`, `thoigianbatdau`, `thoigianketthuc`, `ctxh`, `drl`) VALUES
+('DVS01', 'Dọn vệ sinh', 'dọn rác sân trường', '', '2025-03-27 13:01:00', '2025-03-28 13:01:00', 1, 0),
 ('SK001', 'Hiến máu nhân đạo', 'Chương trình hiến máu nhân đạo tại trường', 'hienmau.jpg', '2025-04-01 08:00:00', '2025-04-01 16:00:00', 8, 10),
 ('SK002', 'Dọn vệ sinh môi trường', 'Dọn dẹp, làm sạch khuôn viên trường', 'vesinh.jpg', '2025-04-15 07:30:00', '2025-04-15 11:30:00', 4, 5),
 ('SK003', 'Workshop Kỹ năng mềm', 'Hội thảo về kỹ năng giao tiếp và làm việc nhóm', 'workshop.jpg', '2025-04-20 13:30:00', '2025-04-20 16:30:00', 3, 5),
 ('SK004', 'Ngày hội việc làm', 'Kết nối doanh nghiệp và sinh viên', 'job.jpg', '2025-05-01 08:00:00', '2025-05-01 17:00:00', 8, 10),
 ('SK005', 'Giải bóng đá sinh viên', 'Giải bóng đá giao hữu giữa các khoa', 'football.jpg', '2025-05-10 07:00:00', '2025-05-10 17:00:00', 8, 10);
-
--- --------------------------------------------------------
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -236,7 +235,7 @@ INSERT INTO `sukien` (`mask`, `tensk`, `noidung`, `hinhanh`, `thoigianbatdau`, `
 -- Chỉ mục cho bảng `admin`
 --
 ALTER TABLE `admin`
-  ADD PRIMARY KEY (`name`);
+  ADD PRIMARY KEY (`STT`);
 
 --
 -- Chỉ mục cho bảng `giangvien`
@@ -291,6 +290,12 @@ ALTER TABLE `sukien`
 --
 
 --
+-- AUTO_INCREMENT cho bảng `admin`
+--
+ALTER TABLE `admin`
+  MODIFY `STT` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT cho bảng `lichhoc`
 --
 ALTER TABLE `lichhoc`
@@ -332,7 +337,6 @@ ALTER TABLE `lichsuchat`
 ALTER TABLE `nhachen`
   ADD CONSTRAINT `fk_nhachen_sinhvien` FOREIGN KEY (`masv`) REFERENCES `sinhvien` (`masv`),
   ADD CONSTRAINT `fk_sukien` FOREIGN KEY (`mask`) REFERENCES `sukien` (`mask`);
-
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
