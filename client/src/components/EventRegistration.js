@@ -57,6 +57,9 @@ function EventRegistration({ event, open, onClose, onSuccess }) {
         <Typography variant="body2" color="text.secondary">
           Điểm rèn luyện: {event.drl}
         </Typography>
+        <Typography variant="body2" color="text.secondary">
+          CTXH: {event.ctxh}
+        </Typography>
         {error && (
           <Alert severity="error" sx={{ mt: 2 }}>
             {error}
