@@ -231,6 +231,20 @@ INSERT INTO `sukien` (`mask`, `tensk`, `noidung`, `hinhanh`, `thoigianbatdau`, `
 ('SK004', 'Ngày hội việc làm', 'Kết nối doanh nghiệp và sinh viên', 'job.jpg', '2025-05-01 08:00:00', '2025-05-01 17:00:00', 8, 10),
 ('SK005', 'Giải bóng đá sinh viên', 'Giải bóng đá giao hữu giữa các khoa', 'football.jpg', '2025-05-10 07:00:00', '2025-05-10 17:00:00', 8, 10);
 
+-- Cấu trúc bảng đăng ký sự kiện 'dangky_sukien'
+CREATE TABLE `dangky_sukien` (
+  `mask` varchar(50) NOT NULL,
+  `masv` varchar(50) NOT NULL,
+  `ngaydangky` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Đang đổ dữ liệu cho bảng `dangky_sukien`
+INSERT INTO `dangky_sukien` (`mask`, `masv`, `ngaydangky`) VALUES
+('DVS01', 'DH52201105', '2025-03-27 13:01:00'),
+('SK001', 'DH52201105', '2025-03-27 13:01:00'),
+('SK002', 'DH52201105', '2025-03-27 13:01:00'),
+('SK003', 'DH52201105', '2025-03-27 13:01:00'),
+
 --
 -- Chỉ mục cho các bảng đã đổ
 --
