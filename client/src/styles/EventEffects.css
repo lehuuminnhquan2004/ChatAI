@@ -1,0 +1,100 @@
+/* Header Animation */
+@keyframes fadeIn {
+  from { 
+    opacity: 0; 
+    transform: translateY(-20px);
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0);
+  }
+}
+
+/* Card Animation */
+@keyframes fadeInUp {
+  from { 
+    opacity: 0; 
+    transform: translateY(20px);
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0);
+  }
+}
+
+/* Loading Spinner Animation */
+@keyframes pulse {
+  0% { 
+    opacity: 0.6;
+  }
+  50% { 
+    opacity: 1;
+  }
+  100% { 
+    opacity: 0.6;
+  }
+}
+
+/* Card Hover Effects */
+.event-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.event-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+}
+
+/* Card Image Hover Effect */
+.event-card-media {
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.event-card-media:hover {
+  transform: translate(-50%, -50%) scale(1.1);
+  filter: brightness(1.1);
+}
+
+/* Filter Button Hover Effect */
+.filter-button {
+  transition: all 0.3s ease;
+}
+
+.filter-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* Status Chip Hover Effect */
+.status-chip {
+  transition: filter 0.2s ease;
+}
+
+.status-chip:hover {
+  filter: brightness(1.1);
+}
+
+/* Info Chips Hover Effect */
+.info-chip {
+  transition: all 0.2s ease;
+}
+
+.info-chip:hover {
+  transform: translateY(-2px);
+  background-color: #c5cae9;
+}
+
+/* Register Button Hover Effect */
+.register-button {
+  transition: all 0.3s ease;
+}
+
+.register-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(33,150,243,0.4);
+}
+
+/* Register Button Success State */
+.register-button-success:hover {
+  box-shadow: 0 6px 20px rgba(46,125,50,0.4);
+} 

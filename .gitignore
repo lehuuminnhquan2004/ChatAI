@@ -1,17 +1,1 @@
-# Dependencies
-node_modules/
-
-# Environment variables
-.env
-
-# IDE files
-.vscode/
-.idea/
-
-# Logs
-*.log
-npm-debug.log*
-
-# Operating System Files
-.DS_Store
-Thumbs.db 
+node_modules
