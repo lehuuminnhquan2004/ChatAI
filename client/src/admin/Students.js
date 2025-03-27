@@ -18,15 +18,16 @@ import {
   DialogActions,
   TextField,
   Alert,
-  CircularProgress
+  CircularProgress,
+  Tooltip
 } from '@mui/material';
 import {
   Edit as EditIcon,
   Delete as DeleteIcon,
-  Add as AddIcon
+  Add as AddIcon,
+  Person as PersonIcon
 } from '@mui/icons-material';
 import axios from 'axios';
-import AdminLayout from './layouts/AdminLayout';
 
 function Students() {
   const [students, setStudents] = useState([]);
@@ -151,179 +152,221 @@ function Students() {
   };
 
   return (
-    <AdminLayout>
-      <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-          <Typography variant="h4" component="h1">
+    <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+        <Box display="flex" alignItems="center" gap={2}>
+          <PersonIcon sx={{ fontSize: 40, color: "primary.main" }} />
+          <Typography variant="h4" component="h1" fontWeight="bold">
             Quản lý sinh viên
           </Typography>
-          <Button
-            variant="contained"
-            startIcon={<AddIcon />}
-            onClick={() => handleOpenDialog()}
-          >
-            Thêm sinh viên
-          </Button>
         </Box>
+        <Button
+          variant="contained"
+          startIcon={<AddIcon />}
+          onClick={() => handleOpenDialog()}
+          sx={{
+            borderRadius: 2,
+            textTransform: 'none',
+            px: 3
+          }}
+        >
+          Thêm sinh viên
+        </Button>
+      </Box>
 
-        {error && (
-          <Alert severity="error" sx={{ mb: 2 }}>
-            {error}
-          </Alert>
-        )}
+      {error && (
+        <Alert severity="error" sx={{ mb: 2, borderRadius: 1 }}>
+          {error}
+        </Alert>
+      )}
 
-        <Paper>
-          <TableContainer>
-            <Table>
-              <TableHead>
+      <Paper sx={{ borderRadius: 2, overflow: 'hidden' }}>
+        <TableContainer>
+          <Table>
+            <TableHead>
+              <TableRow sx={{ backgroundColor: 'primary.main' }}>
+                <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Mã SV</TableCell>
+                <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Tên sinh viên</TableCell>
+                <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Email</TableCell>
+                <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Số điện thoại</TableCell>
+                <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Lớp</TableCell>
+                <TableCell sx={{ color: 'white', fontWeight: 'bold' }} align="right">Thao tác</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {loading ? (
                 <TableRow>
-                  <TableCell>Mã SV</TableCell>
-                  <TableCell>Tên sinh viên</TableCell>
-                  <TableCell>Email</TableCell>
-                  <TableCell>Số điện thoại</TableCell>
-                  <TableCell>Lớp</TableCell>
-                  <TableCell align="right">Thao tác</TableCell>
+                  <TableCell colSpan={6} align="center" sx={{ py: 3 }}>
+                    <CircularProgress />
+                  </TableCell>
                 </TableRow>
-              </TableHead>
-              <TableBody>
-                {loading ? (
-                  <TableRow>
-                    <TableCell colSpan={6} align="center">
-                      <CircularProgress />
-                    </TableCell>
-                  </TableRow>
-                ) : students.length === 0 ? (
-                  <TableRow>
-                    <TableCell colSpan={6} align="center">
-                      Không có sinh viên nào
-                    </TableCell>
-                  </TableRow>
-                ) : (
-                  students.map((student) => (
-                    <TableRow key={student.masv}>
-                      <TableCell>{student.masv}</TableCell>
-                      <TableCell>{student.tensv}</TableCell>
-                      <TableCell>{student.email}</TableCell>
-                      <TableCell>{student.sdt}</TableCell>
-                      <TableCell>{student.lop}</TableCell>
-                      <TableCell align="right">
-                        <IconButton onClick={() => handleOpenDialog(student)}>
+              ) : students.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={6} align="center" sx={{ py: 3 }}>
+                    Không có sinh viên nào
+                  </TableCell>
+                </TableRow>
+              ) : (
+                students.map((student) => (
+                  <TableRow 
+                    key={student.masv}
+                    sx={{ 
+                      '&:hover': { 
+                        backgroundColor: 'action.hover' 
+                      }
+                    }}
+                  >
+                    <TableCell sx={{ fontWeight: 500 }}>{student.masv}</TableCell>
+                    <TableCell>{student.tensv}</TableCell>
+                    <TableCell>{student.email}</TableCell>
+                    <TableCell>{student.sdt}</TableCell>
+                    <TableCell>{student.lop}</TableCell>
+                    <TableCell align="right">
+                      <Tooltip title="Chỉnh sửa">
+                        <IconButton 
+                          onClick={() => handleOpenDialog(student)}
+                          sx={{ 
+                            '&:hover': { 
+                              color: 'primary.main' 
+                            }
+                          }}
+                        >
                           <EditIcon />
                         </IconButton>
-                        <IconButton onClick={() => handleDelete(student.masv)}>
+                      </Tooltip>
+                      <Tooltip title="Xóa">
+                        <IconButton 
+                          onClick={() => handleDelete(student.masv)}
+                          color="error"
+                          sx={{ 
+                            '&:hover': { 
+                              backgroundColor: 'error.lighter' 
+                            }
+                          }}
+                        >
                           <DeleteIcon />
                         </IconButton>
-                      </TableCell>
-                    </TableRow>
-                  ))
-                )}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Paper>
+                      </Tooltip>
+                    </TableCell>
+                  </TableRow>
+                ))
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Paper>
 
-        <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="sm" fullWidth>
-          <DialogTitle>
-            {selectedStudent ? 'Chỉnh sửa sinh viên' : 'Thêm sinh viên mới'}
-          </DialogTitle>
-          <DialogContent>
-            <Box sx={{ pt: 2 }}>
-              <TextField
-                fullWidth
-                label="Mã sinh viên"
-                name="masv"
-                value={formData.masv}
-                onChange={handleChange}
-                margin="normal"
-                required
-                disabled={!!selectedStudent}
-              />
-              
-              <TextField
-                fullWidth
-                label="Tên sinh viên"
-                name="tensv"
-                value={formData.tensv}
-                onChange={handleChange}
-                margin="normal"
-                required
-              />
-              <TextField
-                fullWidth
-                label="Ngày sinh"
-                name="ngaysinh"
-                type="date"
-                value={formData.ngaysinh}
-                onChange={handleChange}
-                margin="normal"
-                required
-                InputLabelProps={{ shrink: true }}
-              />
-              <TextField
-                fullWidth
-                label=""
-                name="gioitinh"
-                select
-                value={formData.gioitinh}
-                onChange={handleChange}
-                margin="normal"
-                required
-                SelectProps={{
-                  native: true
-                }}
-              >
-                <option disabled selected value="">Chọn giới tính</option>
-                <option value="Nam">Nam</option>
-                <option value="Nu">Nữ</option>
-              </TextField>
-              <TextField
-                fullWidth
-                label="Lớp"
-                name="lop"
-                value={formData.lop}
-                onChange={handleChange}
-                margin="normal"
-                required
-              />
-              <TextField
-                fullWidth
-                label="Chuyên ngành"
-                name="chuyennganh"
-                value={formData.chuyennganh}
-                onChange={handleChange}
-                margin="normal"
-                required
-              />
-              <TextField
-                fullWidth
-                label="Số điện thoại"
-                name="sdt"
-                value={formData.sdt}
-                onChange={handleChange}
-                margin="normal"
-                required
-              />
-              <TextField
-                fullWidth
-                label="Email"
-                name="email"
-                type="email"
-                value={formData.email}
-                onChange={handleChange}
-                margin="normal"
-                required
-              />
-            </Box>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleCloseDialog}>Hủy</Button>
-            <Button onClick={handleSubmit} variant="contained">
-              {selectedStudent ? 'Cập nhật' : 'Thêm mới'}
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </Container>
-    </AdminLayout>
+      <Dialog 
+        open={openDialog} 
+        onClose={handleCloseDialog} 
+        maxWidth="sm" 
+        fullWidth
+        PaperProps={{
+          sx: {
+            borderRadius: 2
+          }
+        }}
+      >
+        <DialogTitle>
+          {selectedStudent ? 'Chỉnh sửa sinh viên' : 'Thêm sinh viên mới'}
+        </DialogTitle>
+        <DialogContent>
+          <Box sx={{ pt: 2 }}>
+            <TextField
+              fullWidth
+              label="Mã sinh viên"
+              name="masv"
+              value={formData.masv}
+              onChange={handleChange}
+              margin="normal"
+              required
+              disabled={!!selectedStudent}
+            />
+            
+            <TextField
+              fullWidth
+              label="Tên sinh viên"
+              name="tensv"
+              value={formData.tensv}
+              onChange={handleChange}
+              margin="normal"
+              required
+            />
+            <TextField
+              fullWidth
+              label="Ngày sinh"
+              name="ngaysinh"
+              type="date"
+              value={formData.ngaysinh}
+              onChange={handleChange}
+              margin="normal"
+              required
+              InputLabelProps={{ shrink: true }}
+            />
+            <TextField
+              fullWidth
+              label=""
+              name="gioitinh"
+              select
+              value={formData.gioitinh}
+              onChange={handleChange}
+              margin="normal"
+              required
+              SelectProps={{
+                native: true
+              }}
+            >
+              <option disabled selected value="">Chọn giới tính</option>
+              <option value="Nam">Nam</option>
+              <option value="Nu">Nữ</option>
+            </TextField>
+            <TextField
+              fullWidth
+              label="Lớp"
+              name="lop"
+              value={formData.lop}
+              onChange={handleChange}
+              margin="normal"
+              required
+            />
+            <TextField
+              fullWidth
+              label="Chuyên ngành"
+              name="chuyennganh"
+              value={formData.chuyennganh}
+              onChange={handleChange}
+              margin="normal"
+              required
+            />
+            <TextField
+              fullWidth
+              label="Số điện thoại"
+              name="sdt"
+              value={formData.sdt}
+              onChange={handleChange}
+              margin="normal"
+              required
+            />
+            <TextField
+              fullWidth
+              label="Email"
+              name="email"
+              type="email"
+              value={formData.email}
+              onChange={handleChange}
+              margin="normal"
+              required
+            />
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialog}>Hủy</Button>
+          <Button onClick={handleSubmit} variant="contained">
+            {selectedStudent ? 'Cập nhật' : 'Thêm mới'}
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </Container>
   );
 }
 

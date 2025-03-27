@@ -32,7 +32,6 @@ import {
   CloudUpload as UploadIcon,
 } from "@mui/icons-material";
 import axios from "axios";
-import AdminLayout from "./layouts/AdminLayout";
 
 function Subjects() {
   const [subjects, setSubjects] = useState([]);
@@ -257,267 +256,265 @@ function Subjects() {
   };
 
   return (
-    <AdminLayout>
-      <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            mb: 3,
-          }}
+    <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          mb: 3,
+        }}
+      >
+        <Typography variant="h4" component="h1" fontWeight="bold">
+          Quản lý môn học
+        </Typography>
+        <Button
+          variant="contained"
+          startIcon={<AddIcon />}
+          onClick={() => handleOpenDialog()}
         >
-          <Typography variant="h4" component="h1" fontWeight="bold">
-            Quản lý môn học
-          </Typography>
-          <Button
-            variant="contained"
-            startIcon={<AddIcon />}
-            onClick={() => handleOpenDialog()}
-          >
-            Thêm môn học
-          </Button>
-        </Box>
+          Thêm môn học
+        </Button>
+      </Box>
 
-        {error && (
-          <Alert severity="error" sx={{ mb: 2 }}>
-            {error}
-          </Alert>
-        )}
+      {error && (
+        <Alert severity="error" sx={{ mb: 2 }}>
+          {error}
+        </Alert>
+      )}
 
-        <Paper>
-          <TableContainer>
-            <Table>
-              <TableHead>
-                <TableRow sx={{ backgroundColor: "primary.main" }}>
-                  <TableCell sx={{ color: "white", fontWeight: "bold" }}>
-                    Mã môn học
-                  </TableCell>
-                  <TableCell sx={{ color: "white", fontWeight: "bold" }}>
-                    Tên môn học
-                  </TableCell>
-                  <TableCell
-                    align="center"
-                    sx={{ color: "white", fontWeight: "bold" }}
-                  >
-                    Số tín chỉ
-                  </TableCell>
-                  <TableCell
-                    align="center"
-                    sx={{ color: "white", fontWeight: "bold" }}
-                  >
-                    Tài liệu
-                  </TableCell>
-                  <TableCell
-                    align="right"
-                    sx={{ color: "white", fontWeight: "bold" }}
-                  >
-                    Thao tác
+      <Paper>
+        <TableContainer>
+          <Table>
+            <TableHead>
+              <TableRow sx={{ backgroundColor: "primary.main" }}>
+                <TableCell sx={{ color: "white", fontWeight: "bold" }}>
+                  Mã môn học
+                </TableCell>
+                <TableCell sx={{ color: "white", fontWeight: "bold" }}>
+                  Tên môn học
+                </TableCell>
+                <TableCell
+                  align="center"
+                  sx={{ color: "white", fontWeight: "bold" }}
+                >
+                  Số tín chỉ
+                </TableCell>
+                <TableCell
+                  align="center"
+                  sx={{ color: "white", fontWeight: "bold" }}
+                >
+                  Tài liệu
+                </TableCell>
+                <TableCell
+                  align="right"
+                  sx={{ color: "white", fontWeight: "bold" }}
+                >
+                  Thao tác
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {loading ? (
+                <TableRow>
+                  <TableCell colSpan={5} align="center">
+                    <CircularProgress />
                   </TableCell>
                 </TableRow>
-              </TableHead>
-              <TableBody>
-                {loading ? (
-                  <TableRow>
-                    <TableCell colSpan={5} align="center">
-                      <CircularProgress />
+              ) : subjects.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={5} align="center">
+                    Không có môn học nào
+                  </TableCell>
+                </TableRow>
+              ) : (
+                subjects.map((subject) => (
+                  <TableRow key={subject.mamh}>
+                    <TableCell
+                      sx={{ color: "primary.main", fontWeight: "bold" }}
+                    >
+                      {subject.mamh}
                     </TableCell>
-                  </TableRow>
-                ) : subjects.length === 0 ? (
-                  <TableRow>
-                    <TableCell colSpan={5} align="center">
-                      Không có môn học nào
-                    </TableCell>
-                  </TableRow>
-                ) : (
-                  subjects.map((subject) => (
-                    <TableRow key={subject.mamh}>
-                      <TableCell
-                        sx={{ color: "primary.main", fontWeight: "bold" }}
-                      >
-                        {subject.mamh}
-                      </TableCell>
-                      <TableCell>{subject.tenmh}</TableCell>
-                      <TableCell align="center">{subject.sotc}</TableCell>
-                      <TableCell align="center">
-                        {subject.has_tailieu ? (
-                          <Tooltip title="Tải xuống tài liệu">
-                            <IconButton
-                              color="primary"
-                              onClick={() => handleDownload(subject.mamh)}
-                            >
-                              <DownloadIcon />
-                            </IconButton>
-                          </Tooltip>
-                        ) : (
-                          "Chưa có tài liệu"
-                        )}
-                      </TableCell>
-                      <TableCell align="right">
-                        <Tooltip title="Chỉnh sửa">
-                          <IconButton onClick={() => handleOpenDialog(subject)}>
-                            <EditIcon />
-                          </IconButton>
-                        </Tooltip>
-                        <Tooltip title="Xóa">
+                    <TableCell>{subject.tenmh}</TableCell>
+                    <TableCell align="center">{subject.sotc}</TableCell>
+                    <TableCell align="center">
+                      {subject.has_tailieu ? (
+                        <Tooltip title="Tải xuống tài liệu">
                           <IconButton
-                            onClick={() => handleDelete(subject.mamh)}
-                            color="error"
+                            color="primary"
+                            onClick={() => handleDownload(subject.mamh)}
                           >
-                            <DeleteIcon />
+                            <DownloadIcon />
                           </IconButton>
                         </Tooltip>
-                      </TableCell>
-                    </TableRow>
-                  ))
-                )}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          {!loading && subjects.length > 0 && (
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "flex-end",
-                alignItems: "center",
-                p: 2,
-                gap: 2,
-                borderTop: "1px solid rgba(224, 224, 224, 1)",
-              }}
-            >
-              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                <Typography variant="body2" component="span">
-                  Số hàng mỗi trang:
-                </Typography>
-                <Select
-                  value={rowsPerPage}
-                  onChange={handleChangeRowsPerPage}
-                  size="small"
-                  sx={{ minWidth: 80 }}
-                >
-                  <MenuItem value={5}>5</MenuItem>
-                  <MenuItem value={10}>10</MenuItem>
-                  <MenuItem value={25}>25</MenuItem>
-                  <MenuItem value={50}>50</MenuItem>
-                </Select>
-              </Box>
-              <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-                <Typography variant="body2" color="text.secondary">
-                  {`${paginationInfo.from}-${paginationInfo.to} trên ${paginationInfo.total}`}
-                </Typography>
-                <Stack direction="row" spacing={1}>
-                  <IconButton
-                    size="small"
-                    onClick={() => handlePageChange(null, page - 1)}
-                    disabled={page === 1}
-                  >
-                    <Typography variant="body2">&lt;</Typography>
-                  </IconButton>
-                  <IconButton
-                    size="small"
-                    onClick={() => handlePageChange(null, page + 1)}
-                    disabled={page === totalPages}
-                  >
-                    <Typography variant="body2">&gt;</Typography>
-                  </IconButton>
-                </Stack>
-              </Box>
-            </Box>
-          )}
-        </Paper>
-
-        <Dialog
-          open={openDialog}
-          onClose={handleCloseDialog}
-          maxWidth="sm"
-          fullWidth
-        >
-          <DialogTitle>
-            {selectedSubject ? "Chỉnh sửa môn học" : "Thêm môn học mới"}
-          </DialogTitle>
-          <DialogContent>
-            <Box sx={{ pt: 2 }}>
-              <TextField
-                fullWidth
-                label="Mã môn học"
-                name="mamh"
-                value={formData.mamh}
-                onChange={handleChange}
-                margin="normal"
-                required
-                disabled={!!selectedSubject}
-                error={!formData.mamh && !selectedSubject}
-                helperText={
-                  !formData.mamh && !selectedSubject
-                    ? "Vui lòng nhập mã môn học"
-                    : ""
-                }
-              />
-              <TextField
-                fullWidth
-                label="Tên môn học"
-                name="tenmh"
-                value={formData.tenmh}
-                onChange={handleChange}
-                margin="normal"
-                required
-                error={!formData.tenmh}
-                helperText={!formData.tenmh ? "Vui lòng nhập tên môn học" : ""}
-              />
-              <TextField
-                fullWidth
-                label="Số tín chỉ"
-                name="sotc"
-                type="number"
-                value={formData.sotc}
-                onChange={handleChange}
-                margin="normal"
-                required
-                inputProps={{ min: 1 }}
-                error={!formData.sotc || formData.sotc <= 0}
-                helperText={
-                  !formData.sotc || formData.sotc <= 0
-                    ? "Số tín chỉ phải là số dương"
-                    : ""
-                }
-              />
-              <input
-                accept="*/*"
-                style={{ display: "none" }}
-                id="tailieu-file"
-                type="file"
-                onChange={handleFileChange}
-              />
-              <label htmlFor="tailieu-file">
-                <Button
-                  variant="outlined"
-                  component="span"
-                  fullWidth
-                  sx={{ mt: 2 }}
-                  startIcon={<UploadIcon />}
-                >
-                  {formData.tailieu ? formData.tailieu.name : "Chọn tài liệu"}
-                </Button>
-              </label>
-              <Typography
-                variant="caption"
-                color="textSecondary"
-                display="block"
-                sx={{ mt: 1 }}
-              >
-                Kích thước tối đa: 10MB
+                      ) : (
+                        "Chưa có tài liệu"
+                      )}
+                    </TableCell>
+                    <TableCell align="right">
+                      <Tooltip title="Chỉnh sửa">
+                        <IconButton onClick={() => handleOpenDialog(subject)}>
+                          <EditIcon />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title="Xóa">
+                        <IconButton
+                          onClick={() => handleDelete(subject.mamh)}
+                          color="error"
+                        >
+                          <DeleteIcon />
+                        </IconButton>
+                      </Tooltip>
+                    </TableCell>
+                  </TableRow>
+                ))
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        {!loading && subjects.length > 0 && (
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "flex-end",
+              alignItems: "center",
+              p: 2,
+              gap: 2,
+              borderTop: "1px solid rgba(224, 224, 224, 1)",
+            }}
+          >
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+              <Typography variant="body2" component="span">
+                Số hàng mỗi trang:
               </Typography>
+              <Select
+                value={rowsPerPage}
+                onChange={handleChangeRowsPerPage}
+                size="small"
+                sx={{ minWidth: 80 }}
+              >
+                <MenuItem value={5}>5</MenuItem>
+                <MenuItem value={10}>10</MenuItem>
+                <MenuItem value={25}>25</MenuItem>
+                <MenuItem value={50}>50</MenuItem>
+              </Select>
             </Box>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleCloseDialog}>Hủy</Button>
-            <Button onClick={handleSubmit} variant="contained" color="primary">
-              {selectedSubject ? "Cập nhật" : "Thêm mới"}
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </Container>
-    </AdminLayout>
+            <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+              <Typography variant="body2" color="text.secondary">
+                {`${paginationInfo.from}-${paginationInfo.to} trên ${paginationInfo.total}`}
+              </Typography>
+              <Stack direction="row" spacing={1}>
+                <IconButton
+                  size="small"
+                  onClick={() => handlePageChange(null, page - 1)}
+                  disabled={page === 1}
+                >
+                  <Typography variant="body2">&lt;</Typography>
+                </IconButton>
+                <IconButton
+                  size="small"
+                  onClick={() => handlePageChange(null, page + 1)}
+                  disabled={page === totalPages}
+                >
+                  <Typography variant="body2">&gt;</Typography>
+                </IconButton>
+              </Stack>
+            </Box>
+          </Box>
+        )}
+      </Paper>
+
+      <Dialog
+        open={openDialog}
+        onClose={handleCloseDialog}
+        maxWidth="sm"
+        fullWidth
+      >
+        <DialogTitle>
+          {selectedSubject ? "Chỉnh sửa môn học" : "Thêm môn học mới"}
+        </DialogTitle>
+        <DialogContent>
+          <Box sx={{ pt: 2 }}>
+            <TextField
+              fullWidth
+              label="Mã môn học"
+              name="mamh"
+              value={formData.mamh}
+              onChange={handleChange}
+              margin="normal"
+              required
+              disabled={!!selectedSubject}
+              error={!formData.mamh && !selectedSubject}
+              helperText={
+                !formData.mamh && !selectedSubject
+                  ? "Vui lòng nhập mã môn học"
+                  : ""
+              }
+            />
+            <TextField
+              fullWidth
+              label="Tên môn học"
+              name="tenmh"
+              value={formData.tenmh}
+              onChange={handleChange}
+              margin="normal"
+              required
+              error={!formData.tenmh}
+              helperText={!formData.tenmh ? "Vui lòng nhập tên môn học" : ""}
+            />
+            <TextField
+              fullWidth
+              label="Số tín chỉ"
+              name="sotc"
+              type="number"
+              value={formData.sotc}
+              onChange={handleChange}
+              margin="normal"
+              required
+              inputProps={{ min: 1 }}
+              error={!formData.sotc || formData.sotc <= 0}
+              helperText={
+                !formData.sotc || formData.sotc <= 0
+                  ? "Số tín chỉ phải là số dương"
+                  : ""
+              }
+            />
+            <input
+              accept="*/*"
+              style={{ display: "none" }}
+              id="tailieu-file"
+              type="file"
+              onChange={handleFileChange}
+            />
+            <label htmlFor="tailieu-file">
+              <Button
+                variant="outlined"
+                component="span"
+                fullWidth
+                sx={{ mt: 2 }}
+                startIcon={<UploadIcon />}
+              >
+                {formData.tailieu ? formData.tailieu.name : "Chọn tài liệu"}
+              </Button>
+            </label>
+            <Typography
+              variant="caption"
+              color="textSecondary"
+              display="block"
+              sx={{ mt: 1 }}
+            >
+              Kích thước tối đa: 10MB
+            </Typography>
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialog}>Hủy</Button>
+          <Button onClick={handleSubmit} variant="contained" color="primary">
+            {selectedSubject ? "Cập nhật" : "Thêm mới"}
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </Container>
   );
 }
 

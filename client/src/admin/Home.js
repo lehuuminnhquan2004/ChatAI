@@ -18,7 +18,6 @@ import {
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import AdminLayout from './layouts/AdminLayout';
 import authService from '../services/authService';
 
 function AdminHome() {
@@ -102,113 +101,109 @@ function AdminHome() {
 
   if (loading) {
     return (
-      <AdminLayout>
-        <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '400px' }}>
-            <CircularProgress />
-          </Box>
-        </Container>
-      </AdminLayout>
+      <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '400px' }}>
+          <CircularProgress />
+        </Box>
+      </Container>
     );
   }
 
   return (
-    <AdminLayout>
-      <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-        <Grid container spacing={3}>
-          <Grid item xs={12}>
-            <Paper sx={{ p: 3, mb: 3 }}>
-              <Typography variant="h4" gutterBottom>
-                Thống kê tổng quan
-              </Typography>
-              <Grid container spacing={3}>
-                <Grid item xs={12} sm={6} md={3}>
-                  <StatCard
-                    title="Tổng số sinh viên"
-                    value={stats.totalStudents}
-                    icon={<PeopleIcon sx={{ color: '#1976d2' }} />}
-                    color="#1976d2"
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6} md={3}>
-                  <StatCard
-                    title="Tổng số môn học"
-                    value={stats.totalSubjects}
-                    icon={<SchoolIcon sx={{ color: '#2e7d32' }} />}
-                    color="#2e7d32"
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6} md={3}>
-                  <StatCard
-                    title="Tổng số lịch học"
-                    value={stats.totalSchedules}
-                    icon={<EventIcon sx={{ color: '#ed6c02' }} />}
-                    color="#ed6c02"
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6} md={3}>
-                  <StatCard
-                    title="Tổng số cuộc trò chuyện"
-                    value={stats.totalChats}
-                    icon={<ChatIcon sx={{ color: '#9c27b0' }} />}
-                    color="#9c27b0"
-                  />
-                </Grid>
+    <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+      <Grid container spacing={3}>
+        <Grid item xs={12}>
+          <Paper sx={{ p: 3, mb: 3 }}>
+            <Typography variant="h4" gutterBottom>
+              Thống kê tổng quan
+            </Typography>
+            <Grid container spacing={3}>
+              <Grid item xs={12} sm={6} md={3}>
+                <StatCard
+                  title="Tổng số sinh viên"
+                  value={stats.totalStudents}
+                  icon={<PeopleIcon sx={{ color: '#1976d2' }} />}
+                  color="#1976d2"
+                />
               </Grid>
-            </Paper>
-          </Grid>
-
-          {/* Thêm phần thống kê chi tiết sự kiện */}
-          <Grid item xs={12}>
-            <Paper sx={{ p: 3 }}>
-              <Typography variant="h5" gutterBottom sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                <EventIcon color="primary" />
-                Thống kê sự kiện
-              </Typography>
-              <Divider sx={{ my: 2 }} />
-              <Grid container spacing={3}>
-                <Grid item xs={12} sm={4}>
-                  <Card sx={{ height: '100%', bgcolor: 'info.lighter' }}>
-                    <CardContent>
-                      <Typography variant="subtitle1" color="info.dark" gutterBottom>
-                        Tổng số sự kiện
-                      </Typography>
-                      <Typography variant="h4" color="info.main">
-                        {stats.eventStats?.total || 0}
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                  <Card sx={{ height: '100%', bgcolor: 'primary.lighter' }}>
-                    <CardContent>
-                      <Typography variant="subtitle1" color="primary.dark" gutterBottom>
-                        Sự kiện sắp diễn ra
-                      </Typography>
-                      <Typography variant="h4" color="primary.main">
-                        {stats.eventStats?.upcoming || 0}
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                  <Card sx={{ height: '100%', bgcolor: 'success.lighter' }}>
-                    <CardContent>
-                      <Typography variant="subtitle1" color="success.dark" gutterBottom>
-                        Sự kiện đã kết thúc
-                      </Typography>
-                      <Typography variant="h4" color="success.main">
-                        {stats.eventStats?.past || 0}
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </Grid>
+              <Grid item xs={12} sm={6} md={3}>
+                <StatCard
+                  title="Tổng số môn học"
+                  value={stats.totalSubjects}
+                  icon={<SchoolIcon sx={{ color: '#2e7d32' }} />}
+                  color="#2e7d32"
+                />
               </Grid>
-            </Paper>
-          </Grid>
+              <Grid item xs={12} sm={6} md={3}>
+                <StatCard
+                  title="Tổng số lịch học"
+                  value={stats.totalSchedules}
+                  icon={<EventIcon sx={{ color: '#ed6c02' }} />}
+                  color="#ed6c02"
+                />
+              </Grid>
+              <Grid item xs={12} sm={6} md={3}>
+                <StatCard
+                  title="Tổng số cuộc trò chuyện"
+                  value={stats.totalChats}
+                  icon={<ChatIcon sx={{ color: '#9c27b0' }} />}
+                  color="#9c27b0"
+                />
+              </Grid>
+            </Grid>
+          </Paper>
         </Grid>
-      </Container>
-    </AdminLayout>
+
+        {/* Thêm phần thống kê chi tiết sự kiện */}
+        <Grid item xs={12}>
+          <Paper sx={{ p: 3 }}>
+            <Typography variant="h5" gutterBottom sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <EventIcon color="primary" />
+              Thống kê sự kiện
+            </Typography>
+            <Divider sx={{ my: 2 }} />
+            <Grid container spacing={3}>
+              <Grid item xs={12} sm={4}>
+                <Card sx={{ height: '100%', bgcolor: 'info.lighter' }}>
+                  <CardContent>
+                    <Typography variant="subtitle1" color="info.dark" gutterBottom>
+                      Tổng số sự kiện
+                    </Typography>
+                    <Typography variant="h4" color="info.main">
+                      {stats.eventStats?.total || 0}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+              <Grid item xs={12} sm={4}>
+                <Card sx={{ height: '100%', bgcolor: 'primary.lighter' }}>
+                  <CardContent>
+                    <Typography variant="subtitle1" color="primary.dark" gutterBottom>
+                      Sự kiện sắp diễn ra
+                    </Typography>
+                    <Typography variant="h4" color="primary.main">
+                      {stats.eventStats?.upcoming || 0}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+              <Grid item xs={12} sm={4}>
+                <Card sx={{ height: '100%', bgcolor: 'success.lighter' }}>
+                  <CardContent>
+                    <Typography variant="subtitle1" color="success.dark" gutterBottom>
+                      Sự kiện đã kết thúc
+                    </Typography>
+                    <Typography variant="h4" color="success.main">
+                      {stats.eventStats?.past || 0}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            </Grid>
+          </Paper>
+        </Grid>
+      </Grid>
+    </Container>
   );
 }
 
