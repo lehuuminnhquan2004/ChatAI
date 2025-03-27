@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from "react";
 import {
   Box,
   Container,
@@ -24,81 +24,86 @@ import {
   FormControl,
   InputLabel,
   InputAdornment,
-  Snackbar
-} from '@mui/material';
+  Snackbar,
+} from "@mui/material";
 import {
   Delete as DeleteIcon,
   Add as AddIcon,
   Search as SearchIcon,
-  Refresh as RefreshIcon
-} from '@mui/icons-material';
-import axios from 'axios';
-import AdminLayout from './layouts/AdminLayout';
+  Refresh as RefreshIcon,
+} from "@mui/icons-material";
+import axios from "axios";
+import AdminLayout from "./layouts/AdminLayout";
 
 function Schedules() {
   const [schedules, setSchedules] = useState([]);
   const [subjects, setSubjects] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedSchedule, setSelectedSchedule] = useState(null);
   const [formData, setFormData] = useState({
-    thu: '',
-    ca: '',
-    phong: '',
-    masv: '',
-    mamh: '',
-    magv: '',
-    ngaybatdau: '',
-    ngayketthuc: ''
+    thu: "",
+    ca: "",
+    phong: "",
+    masv: "",
+    mamh: "",
+    magv: "",
+    ngaybatdau: "",
+    ngayketthuc: "",
   });
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [snackbar, setSnackbar] = useState({
     open: false,
-    message: '',
-    severity: 'success'
+    message: "",
+    severity: "success",
   });
 
-  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
 
   const fetchSubjects = useCallback(async () => {
     try {
-      const token = localStorage.getItem('adminToken');
+      const token = localStorage.getItem("adminToken");
       const response = await axios.get(`${API_URL}/api/admin/subjects`, {
-        headers: { 'Authorization': `Bearer ${token}` }
+        headers: { Authorization: `Bearer ${token}` },
       });
-      
+
       if (response.data && response.data.subjects) {
         setSubjects(response.data.subjects);
       }
     } catch (error) {
-      console.error('Lỗi khi tải danh sách môn học:', error);
+      console.error("Lỗi khi tải danh sách môn học:", error);
     }
   }, [API_URL]);
 
   const fetchSchedules = useCallback(async () => {
     try {
       setLoading(true);
-      const token = localStorage.getItem('adminToken');
-      console.log('Đang lấy danh sách lịch học...');
-      
+      const token = localStorage.getItem("adminToken");
+      console.log("Đang lấy danh sách lịch học...");
+
       const response = await axios.get(`${API_URL}/api/schedule/admin`, {
-        headers: { 'Authorization': `Bearer ${token}` }
+        headers: { Authorization: `Bearer ${token}` },
       });
-      
-      console.log('Kết quả từ server:', response.data);
-      
+
+      console.log("Kết quả từ server:", response.data);
+
       if (response.data.success) {
         setSchedules(response.data.schedules || []);
-        console.log('Đã cập nhật state schedules:', response.data.schedules);
-        showSnackbar('Đã tải danh sách lịch học thành công', 'success');
+        console.log("Đã cập nhật state schedules:", response.data.schedules);
+        showSnackbar("Đã tải danh sách lịch học thành công", "success");
       } else {
-        throw new Error(response.data.message || 'Không thể tải dữ liệu lịch học');
+        throw new Error(
+          response.data.message || "Không thể tải dữ liệu lịch học"
+        );
       }
     } catch (error) {
-      console.error('Chi tiết lỗi:', error);
-      setError('Không thể tải danh sách lịch học: ' + (error.response?.data?.message || error.message));
-      showSnackbar('Lỗi khi tải danh sách lịch học', 'error');
+      console.error("Chi tiết lỗi:", error);
+      setError(
+        "Không thể tải danh sách lịch học: " +
+          (error.response?.data?.message || error.message)
+      );
+      showSnackbar("Lỗi khi tải danh sách lịch học", "error");
     } finally {
       setLoading(false);
     }
@@ -114,21 +119,25 @@ function Schedules() {
       // Chuyển đổi định dạng ngày tháng cho form
       const formattedSchedule = {
         ...schedule,
-        ngaybatdau: schedule.ngaybatdau ? schedule.ngaybatdau.split('T')[0] : '',
-        ngayketthuc: schedule.ngayketthuc ? schedule.ngayketthuc.split('T')[0] : ''
+        ngaybatdau: schedule.ngaybatdau
+          ? schedule.ngaybatdau.split("T")[0]
+          : "",
+        ngayketthuc: schedule.ngayketthuc
+          ? schedule.ngayketthuc.split("T")[0]
+          : "",
       };
       setFormData(formattedSchedule);
       setSelectedSchedule(schedule);
     } else {
       setFormData({
-        thu: '',
-        ca: '',
-        phong: '',
-        masv: '',
-        mamh: '',
-        magv: '',
-        ngaybatdau: '',
-        ngayketthuc: ''
+        thu: "",
+        ca: "",
+        phong: "",
+        masv: "",
+        mamh: "",
+        magv: "",
+        ngaybatdau: "",
+        ngayketthuc: "",
       });
       setSelectedSchedule(null);
     }
@@ -139,36 +148,47 @@ function Schedules() {
     setOpenDialog(false);
     setSelectedSchedule(null);
     setFormData({
-      thu: '',
-      ca: '',
-      phong: '',
-      masv: '',
-      mamh: '',
-      magv: '',
-      ngaybatdau: '',
-      ngayketthuc: ''
+      thu: "",
+      ca: "",
+      phong: "",
+      masv: "",
+      mamh: "",
+      magv: "",
+      ngaybatdau: "",
+      ngayketthuc: "",
     });
   };
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
   const handleSubmit = async () => {
     try {
-      const token = localStorage.getItem('adminToken');
-      
+      const token = localStorage.getItem("adminToken");
+
       // Validate form data
-      const requiredFields = ['thu', 'ca', 'phong', 'masv', 'mamh', 'magv', 'ngaybatdau', 'ngayketthuc'];
-      const missingFields = requiredFields.filter(field => !formData[field]);
-      
+      const requiredFields = [
+        "thu",
+        "ca",
+        "phong",
+        "masv",
+        "mamh",
+        "magv",
+        "ngaybatdau",
+        "ngayketthuc",
+      ];
+      const missingFields = requiredFields.filter((field) => !formData[field]);
+
       if (missingFields.length > 0) {
-        throw new Error(`Vui lòng điền đầy đủ thông tin: ${missingFields.join(', ')}`);
+        throw new Error(
+          `Vui lòng điền đầy đủ thông tin: ${missingFields.join(", ")}`
+        );
       }
-      
+
       // Tạo request body
       const scheduleData = {
         thu: parseInt(formData.thu),
@@ -178,49 +198,56 @@ function Schedules() {
         mamh: formData.mamh,
         magv: formData.magv,
         ngaybatdau: formData.ngaybatdau,
-        ngayketthuc: formData.ngayketthuc
+        ngayketthuc: formData.ngayketthuc,
       };
-      
+
       // Gửi request tới API
       const response = await axios.post(
         `${API_URL}/api/admin/chat`,
         {
           message: "ADD_SCHEDULE",
-          scheduleData: scheduleData
+          scheduleData: scheduleData,
         },
-        { headers: { 'Authorization': `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
-      
+
       if (response.data.success) {
         handleCloseDialog();
         fetchSchedules();
-        showSnackbar('Thêm lịch học thành công', 'success');
+        showSnackbar("Thêm lịch học thành công", "success");
       } else {
-        throw new Error(response.data.message || 'Có lỗi xảy ra khi thêm lịch học');
+        throw new Error(
+          response.data.message || "Có lỗi xảy ra khi thêm lịch học"
+        );
       }
     } catch (error) {
-      console.error('Lỗi khi thêm lịch học:', error);
-      setError(error.response?.data?.message || error.message || 'Có lỗi xảy ra');
-      showSnackbar('Lỗi: ' + (error.response?.data?.message || error.message), 'error');
+      console.error("Lỗi khi thêm lịch học:", error);
+      setError(
+        error.response?.data?.message || error.message || "Có lỗi xảy ra"
+      );
+      showSnackbar(
+        "Lỗi: " + (error.response?.data?.message || error.message),
+        "error"
+      );
     }
   };
 
   const handleDelete = async (thu, ca, phong, masv) => {
-    if (window.confirm('Bạn có chắc chắn muốn xóa lịch học này?')) {
+    if (window.confirm("Bạn có chắc chắn muốn xóa lịch học này?")) {
       try {
-        const token = localStorage.getItem('adminToken');
-        await axios.delete(
-          `${API_URL}/api/schedule/admin`,
-          { 
-            headers: { 'Authorization': `Bearer ${token}` },
-            data: { thu, ca, phong, masv }
-          }
-        );
+        const token = localStorage.getItem("adminToken");
+        await axios.delete(`${API_URL}/api/schedule/admin`, {
+          headers: { Authorization: `Bearer ${token}` },
+          data: { thu, ca, phong, masv },
+        });
         fetchSchedules();
-        showSnackbar('Xóa lịch học thành công', 'success');
+        showSnackbar("Xóa lịch học thành công", "success");
       } catch (error) {
-        setError('Không thể xóa lịch học: ' + (error.response?.data?.message || error.message));
-        showSnackbar('Lỗi khi xóa lịch học', 'error');
+        setError(
+          "Không thể xóa lịch học: " +
+            (error.response?.data?.message || error.message)
+        );
+        showSnackbar("Lỗi khi xóa lịch học", "error");
       }
     }
   };
@@ -233,20 +260,20 @@ function Schedules() {
     setSnackbar({
       open: true,
       message,
-      severity
+      severity,
     });
   };
 
   const handleCloseSnackbar = () => {
     setSnackbar({
       ...snackbar,
-      open: false
+      open: false,
     });
   };
 
-  const filteredSchedules = schedules.filter(schedule => {
+  const filteredSchedules = schedules.filter((schedule) => {
     if (!searchTerm) return true;
-    
+
     const searchStr = searchTerm.toLowerCase();
     return (
       (schedule.masv && schedule.masv.toLowerCase().includes(searchStr)) ||
@@ -262,14 +289,21 @@ function Schedules() {
 
   // Hàm lấy tên môn học từ danh sách môn học
   const getSubjectName = (mamh) => {
-    const subject = subjects.find(s => s.mamh === mamh);
+    const subject = subjects.find((s) => s.mamh === mamh);
     return subject ? subject.tenmh : mamh;
   };
 
   return (
     <AdminLayout>
       <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            mb: 3,
+          }}
+        >
           <Typography variant="h4" component="h1">
             Danh sách lịch học
           </Typography>
@@ -349,22 +383,37 @@ function Schedules() {
                   </TableRow>
                 ) : (
                   filteredSchedules.map((schedule) => (
-                    <TableRow key={`${schedule.masv}-${schedule.mamh}-${schedule.thu}-${schedule.ca}`}>
+                    <TableRow
+                      key={`${schedule.masv}-${schedule.mamh}-${schedule.thu}-${schedule.ca}`}
+                    >
                       <TableCell>{schedule.thuhoc}</TableCell>
                       <TableCell>{schedule.giohoc}</TableCell>
                       <TableCell>{schedule.phong}</TableCell>
                       <TableCell>{schedule.masv}</TableCell>
-                      <TableCell>{schedule.tensv || 'Chưa có thông tin'}</TableCell>
+                      <TableCell>
+                        {schedule.tensv || "Chưa có thông tin"}
+                      </TableCell>
                       <TableCell>{schedule.mamh}</TableCell>
-                      <TableCell>{schedule.tenmh || getSubjectName(schedule.mamh)}</TableCell>
+                      <TableCell>
+                        {schedule.tenmh || getSubjectName(schedule.mamh)}
+                      </TableCell>
                       <TableCell>{schedule.magv}</TableCell>
-                      <TableCell>{schedule.tengv || 'Chưa có thông tin'}</TableCell>
+                      <TableCell>
+                        {schedule.tengv || "Chưa có thông tin"}
+                      </TableCell>
                       <TableCell>{schedule.ngaybatdau}</TableCell>
                       <TableCell>{schedule.ngayketthuc}</TableCell>
                       <TableCell align="center">
-                        <IconButton 
-                          color="error" 
-                          onClick={() => handleDelete(schedule.thu, schedule.ca, schedule.phong, schedule.masv)}
+                        <IconButton
+                          color="error"
+                          onClick={() =>
+                            handleDelete(
+                              schedule.thu,
+                              schedule.ca,
+                              schedule.phong,
+                              schedule.masv
+                            )
+                          }
                         >
                           <DeleteIcon />
                         </IconButton>
@@ -377,9 +426,14 @@ function Schedules() {
           </TableContainer>
         </Paper>
 
-        <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="sm" fullWidth>
+        <Dialog
+          open={openDialog}
+          onClose={handleCloseDialog}
+          maxWidth="sm"
+          fullWidth
+        >
           <DialogTitle>
-            {selectedSchedule ? 'Chỉnh sửa lịch học' : 'Thêm lịch học mới'}
+            {selectedSchedule ? "Chỉnh sửa lịch học" : "Thêm lịch học mới"}
           </DialogTitle>
           <DialogContent>
             <Box sx={{ pt: 2 }}>
@@ -496,7 +550,7 @@ function Schedules() {
           <DialogActions>
             <Button onClick={handleCloseDialog}>Hủy</Button>
             <Button onClick={handleSubmit} variant="contained">
-              {selectedSchedule ? 'Cập nhật' : 'Thêm mới'}
+              {selectedSchedule ? "Cập nhật" : "Thêm mới"}
             </Button>
           </DialogActions>
         </Dialog>
@@ -506,11 +560,11 @@ function Schedules() {
           autoHideDuration={6000}
           onClose={handleCloseSnackbar}
           message={snackbar.message}
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
         />
       </Container>
     </AdminLayout>
   );
 }
 
-export default Schedules; 
+export default Schedules;

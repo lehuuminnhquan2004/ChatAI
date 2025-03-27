@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import React, { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import {
   Box,
   Drawer,
@@ -19,7 +19,7 @@ import {
   useMediaQuery,
   Badge,
   Tooltip,
-} from '@mui/material';
+} from "@mui/material";
 import {
   Menu as MenuIcon,
   Dashboard as DashboardIcon,
@@ -32,24 +32,29 @@ import {
   Notifications as NotificationsIcon,
   Person as PersonIcon,
   Event as EventIcon,
-} from '@mui/icons-material';
-import AdminChatBox from '../AdminChatBox';
+} from "@mui/icons-material";
+import AdminChatBox from "../AdminChatBox";
 
 const drawerWidth = 280;
 
 const menuItems = [
-  { text: 'Tổng quan', icon: <DashboardIcon />, path: '/admin/home' },
-  { text: 'Quản lý sinh viên', icon: <PeopleIcon />, path: '/admin/students' },
-  { text: 'Quản lý môn học', icon: <BookIcon />, path: '/admin/subjects' },
-  { text: 'Quản lý lịch học', icon: <ScheduleIcon />, path: '/admin/schedules' },
-  { text: 'Quản lý sự kiện', icon: <EventIcon />, path: '/admin/events' },
-  { text: 'Lịch sử chat', icon: <ChatIcon />, path: '/admin/chats' },
-  { text: 'Cài đặt', icon: <SettingsIcon />, path: '/admin/settings' },
+  { text: "Tổng quan", icon: <DashboardIcon />, path: "/admin/home" },
+  { text: "Quản lý sinh viên", icon: <PeopleIcon />, path: "/admin/students" },
+  { text: "Quản lý giảng viên", icon: <PeopleIcon />, path: "/admin/teachers" },
+  { text: "Quản lý môn học", icon: <BookIcon />, path: "/admin/subjects" },
+  {
+    text: "Quản lý lịch học",
+    icon: <ScheduleIcon />,
+    path: "/admin/schedules",
+  },
+  { text: "Quản lý sự kiện", icon: <EventIcon />, path: "/admin/events" },
+  { text: "Lịch sử chat", icon: <ChatIcon />, path: "/admin/chats" },
+  { text: "Cài đặt", icon: <SettingsIcon />, path: "/admin/settings" },
 ];
 
 const AdminLayout = ({ children }) => {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [mobileOpen, setMobileOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [notificationsAnchor, setNotificationsAnchor] = useState(null);
@@ -74,21 +79,23 @@ const AdminLayout = ({ children }) => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('adminToken');
-    localStorage.removeItem('adminInfo');
-    navigate('/admin/');
+    localStorage.removeItem("adminToken");
+    localStorage.removeItem("adminInfo");
+    navigate("/admin/");
   };
 
   const drawer = (
-    <Box sx={{ height: '100%', bgcolor: 'background.paper' }}>
-      <Toolbar sx={{ 
-        bgcolor: 'primary.main',
-        color: 'white',
-        display: 'flex',
-        alignItems: 'center',
-        gap: 2,
-      }}>
-        <Avatar sx={{ bgcolor: 'white', color: 'primary.main' }}>
+    <Box sx={{ height: "100%", bgcolor: "background.paper" }}>
+      <Toolbar
+        sx={{
+          bgcolor: "primary.main",
+          color: "white",
+          display: "flex",
+          alignItems: "center",
+          gap: 2,
+        }}
+      >
+        <Avatar sx={{ bgcolor: "white", color: "primary.main" }}>
           <PersonIcon />
         </Avatar>
         <Box>
@@ -111,22 +118,20 @@ const AdminLayout = ({ children }) => {
             sx={{
               borderRadius: 2,
               mb: 0.5,
-              '&.Mui-selected': {
-                bgcolor: 'primary.light',
-                color: 'primary.main',
-                '&:hover': {
-                  bgcolor: 'primary.light',
+              "&.Mui-selected": {
+                bgcolor: "primary.light",
+                color: "primary.main",
+                "&:hover": {
+                  bgcolor: "primary.light",
                 },
-                '& .MuiListItemIcon-root': {
-                  color: 'primary.main',
+                "& .MuiListItemIcon-root": {
+                  color: "primary.main",
                 },
               },
             }}
           >
-            <ListItemIcon sx={{ minWidth: 40 }}>
-              {item.icon}
-            </ListItemIcon>
-            <ListItemText 
+            <ListItemIcon sx={{ minWidth: 40 }}>{item.icon}</ListItemIcon>
+            <ListItemText
               primary={item.text}
               primaryTypographyProps={{
                 fontWeight: location.pathname === item.path ? 600 : 400,
@@ -142,13 +147,13 @@ const AdminLayout = ({ children }) => {
           onClick={handleLogout}
           sx={{
             borderRadius: 2,
-            color: 'error.main',
-            '&:hover': {
-              bgcolor: 'error.light',
+            color: "error.main",
+            "&:hover": {
+              bgcolor: "error.light",
             },
           }}
         >
-          <ListItemIcon sx={{ minWidth: 40, color: 'error.main' }}>
+          <ListItemIcon sx={{ minWidth: 40, color: "error.main" }}>
             <ExitToAppIcon />
           </ListItemIcon>
           <ListItemText primary="Đăng xuất" />
@@ -158,14 +163,14 @@ const AdminLayout = ({ children }) => {
   );
 
   return (
-    <Box sx={{ display: 'flex', minHeight: '100vh' }}>
+    <Box sx={{ display: "flex", minHeight: "100vh" }}>
       <AppBar
         position="fixed"
         sx={{
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
-          bgcolor: 'background.paper',
-          color: 'text.primary',
+          bgcolor: "background.paper",
+          color: "text.primary",
           boxShadow: 1,
         }}
       >
@@ -175,14 +180,15 @@ const AdminLayout = ({ children }) => {
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: 'none' } }}
+            sx={{ mr: 2, display: { sm: "none" } }}
           >
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
-            {menuItems.find(item => item.path === location.pathname)?.text || 'Admin Panel'}
+            {menuItems.find((item) => item.path === location.pathname)?.text ||
+              "Admin Panel"}
           </Typography>
-          
+
           <Tooltip title="Thông báo">
             <IconButton color="inherit" onClick={handleNotificationsOpen}>
               <Badge badgeContent={4} color="error">
@@ -190,14 +196,14 @@ const AdminLayout = ({ children }) => {
               </Badge>
             </IconButton>
           </Tooltip>
-          
+
           <Tooltip title="Tài khoản">
             <IconButton
               onClick={handleProfileMenuOpen}
               size="small"
               sx={{ ml: 2 }}
             >
-              <Avatar sx={{ width: 32, height: 32, bgcolor: 'primary.main' }}>
+              <Avatar sx={{ width: 32, height: 32, bgcolor: "primary.main" }}>
                 <PersonIcon />
               </Avatar>
             </IconButton>
@@ -218,11 +224,11 @@ const AdminLayout = ({ children }) => {
               keepMounted: true,
             }}
             sx={{
-              display: { xs: 'block', sm: 'none' },
-              '& .MuiDrawer-paper': { 
-                boxSizing: 'border-box', 
+              display: { xs: "block", sm: "none" },
+              "& .MuiDrawer-paper": {
+                boxSizing: "border-box",
                 width: drawerWidth,
-                borderRight: '1px solid rgba(0, 0, 0, 0.12)',
+                borderRight: "1px solid rgba(0, 0, 0, 0.12)",
               },
             }}
           >
@@ -232,11 +238,11 @@ const AdminLayout = ({ children }) => {
           <Drawer
             variant="permanent"
             sx={{
-              display: { xs: 'none', sm: 'block' },
-              '& .MuiDrawer-paper': { 
-                boxSizing: 'border-box', 
+              display: { xs: "none", sm: "block" },
+              "& .MuiDrawer-paper": {
+                boxSizing: "border-box",
                 width: drawerWidth,
-                borderRight: '1px solid rgba(0, 0, 0, 0.12)',
+                borderRight: "1px solid rgba(0, 0, 0, 0.12)",
               },
             }}
             open
@@ -252,8 +258,8 @@ const AdminLayout = ({ children }) => {
           flexGrow: 1,
           p: 3,
           width: { sm: `calc(100% - ${drawerWidth}px)` },
-          mt: '64px',
-          bgcolor: 'background.default',
+          mt: "64px",
+          bgcolor: "background.default",
         }}
       >
         {children}
@@ -265,10 +271,10 @@ const AdminLayout = ({ children }) => {
         open={Boolean(anchorEl)}
         onClose={handleMenuClose}
         onClick={handleMenuClose}
-        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+        transformOrigin={{ horizontal: "right", vertical: "top" }}
+        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem onClick={() => navigate('/admin/profile')}>
+        <MenuItem onClick={() => navigate("/admin/profile")}>
           <ListItemIcon>
             <PersonIcon fontSize="small" />
           </ListItemIcon>
@@ -287,37 +293,28 @@ const AdminLayout = ({ children }) => {
         open={Boolean(notificationsAnchor)}
         onClose={handleMenuClose}
         onClick={handleMenuClose}
-        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+        transformOrigin={{ horizontal: "right", vertical: "top" }}
+        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
         <MenuItem>
-          <ListItemText 
-            primary="Thông báo mới" 
+          <ListItemText
+            primary="Thông báo mới"
             secondary="Có 4 thông báo mới"
           />
         </MenuItem>
         <Divider />
         <MenuItem>
-          <ListItemText 
-            primary="Cập nhật hệ thống" 
-            secondary="2 phút trước"
-          />
+          <ListItemText primary="Cập nhật hệ thống" secondary="2 phút trước" />
         </MenuItem>
         <MenuItem>
-          <ListItemText 
-            primary="Tin nhắn mới" 
-            secondary="5 phút trước"
-          />
+          <ListItemText primary="Tin nhắn mới" secondary="5 phút trước" />
         </MenuItem>
         <MenuItem>
-          <ListItemText 
-            primary="Cảnh báo" 
-            secondary="1 giờ trước"
-          />
+          <ListItemText primary="Cảnh báo" secondary="1 giờ trước" />
         </MenuItem>
       </Menu>
     </Box>
   );
 };
 
-export default AdminLayout; 
+export default AdminLayout;

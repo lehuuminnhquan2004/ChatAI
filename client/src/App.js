@@ -1,33 +1,39 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
-import MainLayout from './layouts/MainLayout';
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+import MainLayout from "./layouts/MainLayout";
+import AdminRoutes from "./admin/AdminRoutes";
 
-import Login from './components/Login';
-import Home from './components/Home';
-import PrivateRoute from './components/PrivateRoute';
-import ForgotPassword from './components/ForgotPassword';
-import SchedulePage from './pages/SchedulePage';
-import Profile from './components/Profile';
-import ChangePassword from './components/ChangePassword';
-import AdminHome from './admin/Home';
-import AdminStudents from './admin/Students';
-import AdminSubjects from './admin/Subjects';
-import AdminSchedules from './admin/Schedules';
-import AdminChats from './admin/Chats';
-import AdminSettings from './admin/Settings';
-import Events from './admin/Events';
-import StudentEvents from './components/Events';
+import Login from "./components/Login";
+import Home from "./components/Home";
+import PrivateRoute from "./components/PrivateRoute";
+import ForgotPassword from "./components/ForgotPassword";
+import SchedulePage from "./pages/SchedulePage";
+import Profile from "./components/Profile";
+import ChangePassword from "./components/ChangePassword";
+import AdminHome from "./admin/Home";
+import AdminStudents from "./admin/Students";
+import AdminSubjects from "./admin/Subjects";
+import AdminSchedules from "./admin/Schedules";
+import AdminChats from "./admin/Chats";
+import AdminSettings from "./admin/Settings";
+import Events from "./admin/Events";
+import StudentEvents from "./components/Events";
 
 const theme = createTheme({
   palette: {
-    mode: 'light',
+    mode: "light",
     primary: {
-      main: '#1976d2',
+      main: "#1976d2",
     },
     secondary: {
-      main: '#dc004e',
+      main: "#dc004e",
     },
   },
 });
@@ -92,58 +98,10 @@ function App() {
           />
           {/* Admin Routes */}
           <Route
-            path="/admin/home"
+            path="/admin/*"
             element={
               <PrivateRoute requireAdmin>
-                <AdminHome />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/admin/students"
-            element={
-              <PrivateRoute requireAdmin>
-                <AdminStudents />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/admin/subjects"
-            element={
-              <PrivateRoute requireAdmin>
-                <AdminSubjects />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/admin/schedules"
-            element={
-              <PrivateRoute requireAdmin>
-                <AdminSchedules />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/admin/events"
-            element={
-              <PrivateRoute requireAdmin>
-                <Events />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/admin/chats"
-            element={
-              <PrivateRoute requireAdmin>
-                <AdminChats />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/admin/settings"
-            element={
-              <PrivateRoute requireAdmin>
-                <AdminSettings />
+                <AdminRoutes />
               </PrivateRoute>
             }
           />
@@ -154,4 +112,4 @@ function App() {
   );
 }
 
-export default App; 
+export default App;

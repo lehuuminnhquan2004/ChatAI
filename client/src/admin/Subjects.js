@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from "react";
 import {
   Box,
   Container,
@@ -22,57 +22,63 @@ import {
   Tooltip,
   Stack,
   Select,
-  MenuItem
-} from '@mui/material';
+  MenuItem,
+} from "@mui/material";
 import {
   Edit as EditIcon,
   Delete as DeleteIcon,
   Add as AddIcon,
   CloudDownload as DownloadIcon,
-  CloudUpload as UploadIcon
-} from '@mui/icons-material';
-import axios from 'axios';
-import AdminLayout from './layouts/AdminLayout';
+  CloudUpload as UploadIcon,
+} from "@mui/icons-material";
+import axios from "axios";
+import AdminLayout from "./layouts/AdminLayout";
 
 function Subjects() {
   const [subjects, setSubjects] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedSubject, setSelectedSubject] = useState(null);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [formData, setFormData] = useState({
-    mamh: '',
-    tenmh: '',
-    sotc: '',
-    tailieu: null
+    mamh: "",
+    tenmh: "",
+    sotc: "",
+    tailieu: null,
   });
   const [paginationInfo, setPaginationInfo] = useState({});
 
   const fetchSubjects = useCallback(async () => {
     try {
       setLoading(true);
-      setError('');
+      setError("");
 
-      const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/subjects`, {
-        params: {
-          page,
-          limit: rowsPerPage
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/api/subjects`,
+        {
+          params: {
+            page,
+            limit: rowsPerPage,
+          },
         }
-      });
+      );
 
       if (response.data.success) {
         setSubjects(response.data.subjects);
         setTotalPages(response.data.pagination.totalPages);
         setPaginationInfo(response.data.pagination);
       } else {
-        setError(response.data.message || 'Không thể tải danh sách môn học');
+        setError(response.data.message || "Không thể tải danh sách môn học");
       }
     } catch (err) {
-      const errorMessage = err.response?.data?.message || err.message || 'Không thể tải danh sách môn học';
-      console.error('Error fetching subjects:', err);
+      const errorMessage =
+        err.response?.data?.message ||
+        err.message ||
+        "Không thể tải danh sách môn học";
+      console.error("Error fetching subjects:", err);
       setError(errorMessage);
     } finally {
       setLoading(false);
@@ -89,39 +95,40 @@ function Subjects() {
         mamh: subject.mamh,
         tenmh: subject.tenmh,
         sotc: subject.sotc,
-        tailieu: null
+        tailieu: null,
       });
       setSelectedSubject(subject);
     } else {
       setFormData({
-        mamh: '',
-        tenmh: '',
-        sotc: '',
-        tailieu: null
+        mamh: "",
+        tenmh: "",
+        sotc: "",
+        tailieu: null,
       });
       setSelectedSubject(null);
     }
     setOpenDialog(true);
-    setError('');
+    setError("");
   };
 
   const handleCloseDialog = () => {
     setOpenDialog(false);
     setSelectedSubject(null);
     setFormData({
-      mamh: '',
-      tenmh: '',
-      sotc: '',
-      tailieu: null
+      mamh: "",
+      tenmh: "",
+      sotc: "",
+      tailieu: null,
     });
-    setError('');
+    setError("");
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: name === 'sotc' ? (value === '' ? '' : parseInt(value) || 0) : value
+      [name]:
+        name === "sotc" ? (value === "" ? "" : parseInt(value) || 0) : value,
     }));
   };
 
@@ -129,13 +136,13 @@ function Subjects() {
     const file = e.target.files[0];
     if (file) {
       if (file.size > 10 * 1024 * 1024) {
-        setError('File quá lớn. Kích thước tối đa là 10MB');
-        e.target.value = '';
+        setError("File quá lớn. Kích thước tối đa là 10MB");
+        e.target.value = "";
         return;
       }
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
-        tailieu: file
+        tailieu: file,
       }));
     }
   };
@@ -151,27 +158,27 @@ function Subjects() {
 
   const handleSubmit = async () => {
     try {
-      setError('');
+      setError("");
 
       if (!formData.mamh && !selectedSubject) {
-        setError('Vui lòng nhập mã môn học');
+        setError("Vui lòng nhập mã môn học");
         return;
       }
       if (!formData.tenmh) {
-        setError('Vui lòng nhập tên môn học');
+        setError("Vui lòng nhập tên môn học");
         return;
       }
       if (!formData.sotc || formData.sotc <= 0) {
-        setError('Số tín chỉ phải là số dương');
+        setError("Số tín chỉ phải là số dương");
         return;
       }
 
       const formDataToSend = new FormData();
-      if (!selectedSubject) formDataToSend.append('mamh', formData.mamh);
-      formDataToSend.append('tenmh', formData.tenmh);
-      formDataToSend.append('sotc', formData.sotc);
+      if (!selectedSubject) formDataToSend.append("mamh", formData.mamh);
+      formDataToSend.append("tenmh", formData.tenmh);
+      formDataToSend.append("sotc", formData.sotc);
       if (formData.tailieu) {
-        formDataToSend.append('tailieu', formData.tailieu);
+        formDataToSend.append("tailieu", formData.tailieu);
       }
 
       let response;
@@ -191,20 +198,21 @@ function Subjects() {
         handleCloseDialog();
         await fetchSubjects();
       } else {
-        setError(response.data.message || 'Không thể lưu môn học');
+        setError(response.data.message || "Không thể lưu môn học");
       }
     } catch (err) {
-      const errorMessage = err.response?.data?.message || err.message || 'Có lỗi xảy ra';
-      console.error('Error submitting subject:', err);
+      const errorMessage =
+        err.response?.data?.message || err.message || "Có lỗi xảy ra";
+      console.error("Error submitting subject:", err);
       setError(errorMessage);
     }
   };
 
   const handleDelete = async (mamh) => {
     try {
-      setError('');
-      
-      if (window.confirm('Bạn có chắc chắn muốn xóa môn học này?')) {
+      setError("");
+
+      if (window.confirm("Bạn có chắc chắn muốn xóa môn học này?")) {
         const response = await axios.delete(
           `${process.env.REACT_APP_API_URL}/api/subjects/${mamh}`
         );
@@ -212,12 +220,13 @@ function Subjects() {
         if (response.data.success) {
           await fetchSubjects();
         } else {
-          setError(response.data.message || 'Không thể xóa môn học');
+          setError(response.data.message || "Không thể xóa môn học");
         }
       }
     } catch (err) {
-      const errorMessage = err.response?.data?.message || err.message || 'Không thể xóa môn học';
-      console.error('Error deleting subject:', err);
+      const errorMessage =
+        err.response?.data?.message || err.message || "Không thể xóa môn học";
+      console.error("Error deleting subject:", err);
       setError(errorMessage);
     }
   };
@@ -226,20 +235,23 @@ function Subjects() {
     try {
       const response = await axios.get(
         `${process.env.REACT_APP_API_URL}/api/subjects/${mamh}/tailieu`,
-        { responseType: 'blob' }
+        { responseType: "blob" }
       );
-      
-      const url = window.URL.createObjectURL(new Blob([response.data], { type: 'application/pdf' }));
-      const link = document.createElement('a');
+
+      const url = window.URL.createObjectURL(
+        new Blob([response.data], { type: "application/pdf" })
+      );
+      const link = document.createElement("a");
       link.href = url;
-      link.setAttribute('download', `tailieu_${mamh}.pdf`);
+      link.setAttribute("download", `tailieu_${mamh}.pdf`);
       document.body.appendChild(link);
       link.click();
       link.remove();
       window.URL.revokeObjectURL(url);
     } catch (err) {
-      const errorMessage = err.response?.data?.message || err.message || 'Không thể tải tài liệu';
-      console.error('Error downloading document:', err);
+      const errorMessage =
+        err.response?.data?.message || err.message || "Không thể tải tài liệu";
+      console.error("Error downloading document:", err);
       setError(errorMessage);
     }
   };
@@ -247,7 +259,14 @@ function Subjects() {
   return (
     <AdminLayout>
       <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            mb: 3,
+          }}
+        >
           <Typography variant="h4" component="h1" fontWeight="bold">
             Quản lý môn học
           </Typography>
@@ -270,12 +289,31 @@ function Subjects() {
           <TableContainer>
             <Table>
               <TableHead>
-                <TableRow sx={{ backgroundColor: 'primary.main' }}>
-                  <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Mã môn học</TableCell>
-                  <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Tên môn học</TableCell>
-                  <TableCell align="center" sx={{ color: 'white', fontWeight: 'bold' }}>Số tín chỉ</TableCell>
-                  <TableCell align="center" sx={{ color: 'white', fontWeight: 'bold' }}>Tài liệu</TableCell>
-                  <TableCell align="right" sx={{ color: 'white', fontWeight: 'bold' }}>Thao tác</TableCell>
+                <TableRow sx={{ backgroundColor: "primary.main" }}>
+                  <TableCell sx={{ color: "white", fontWeight: "bold" }}>
+                    Mã môn học
+                  </TableCell>
+                  <TableCell sx={{ color: "white", fontWeight: "bold" }}>
+                    Tên môn học
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    sx={{ color: "white", fontWeight: "bold" }}
+                  >
+                    Số tín chỉ
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    sx={{ color: "white", fontWeight: "bold" }}
+                  >
+                    Tài liệu
+                  </TableCell>
+                  <TableCell
+                    align="right"
+                    sx={{ color: "white", fontWeight: "bold" }}
+                  >
+                    Thao tác
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -294,7 +332,11 @@ function Subjects() {
                 ) : (
                   subjects.map((subject) => (
                     <TableRow key={subject.mamh}>
-                      <TableCell sx={{ color: 'primary.main', fontWeight: 'bold' }}>{subject.mamh}</TableCell>
+                      <TableCell
+                        sx={{ color: "primary.main", fontWeight: "bold" }}
+                      >
+                        {subject.mamh}
+                      </TableCell>
                       <TableCell>{subject.tenmh}</TableCell>
                       <TableCell align="center">{subject.sotc}</TableCell>
                       <TableCell align="center">
@@ -308,7 +350,7 @@ function Subjects() {
                             </IconButton>
                           </Tooltip>
                         ) : (
-                          'Chưa có tài liệu'
+                          "Chưa có tài liệu"
                         )}
                       </TableCell>
                       <TableCell align="right">
@@ -318,7 +360,7 @@ function Subjects() {
                           </IconButton>
                         </Tooltip>
                         <Tooltip title="Xóa">
-                          <IconButton 
+                          <IconButton
                             onClick={() => handleDelete(subject.mamh)}
                             color="error"
                           >
@@ -333,15 +375,17 @@ function Subjects() {
             </Table>
           </TableContainer>
           {!loading && subjects.length > 0 && (
-            <Box sx={{ 
-              display: 'flex', 
-              justifyContent: 'flex-end',
-              alignItems: 'center',
-              p: 2,
-              gap: 2,
-              borderTop: '1px solid rgba(224, 224, 224, 1)'
-            }}>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "flex-end",
+                alignItems: "center",
+                p: 2,
+                gap: 2,
+                borderTop: "1px solid rgba(224, 224, 224, 1)",
+              }}
+            >
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                 <Typography variant="body2" component="span">
                   Số hàng mỗi trang:
                 </Typography>
@@ -357,12 +401,12 @@ function Subjects() {
                   <MenuItem value={50}>50</MenuItem>
                 </Select>
               </Box>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+              <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
                 <Typography variant="body2" color="text.secondary">
                   {`${paginationInfo.from}-${paginationInfo.to} trên ${paginationInfo.total}`}
                 </Typography>
                 <Stack direction="row" spacing={1}>
-                  <IconButton 
+                  <IconButton
                     size="small"
                     onClick={() => handlePageChange(null, page - 1)}
                     disabled={page === 1}
@@ -382,9 +426,14 @@ function Subjects() {
           )}
         </Paper>
 
-        <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="sm" fullWidth>
+        <Dialog
+          open={openDialog}
+          onClose={handleCloseDialog}
+          maxWidth="sm"
+          fullWidth
+        >
           <DialogTitle>
-            {selectedSubject ? 'Chỉnh sửa môn học' : 'Thêm môn học mới'}
+            {selectedSubject ? "Chỉnh sửa môn học" : "Thêm môn học mới"}
           </DialogTitle>
           <DialogContent>
             <Box sx={{ pt: 2 }}>
@@ -398,7 +447,11 @@ function Subjects() {
                 required
                 disabled={!!selectedSubject}
                 error={!formData.mamh && !selectedSubject}
-                helperText={!formData.mamh && !selectedSubject ? 'Vui lòng nhập mã môn học' : ''}
+                helperText={
+                  !formData.mamh && !selectedSubject
+                    ? "Vui lòng nhập mã môn học"
+                    : ""
+                }
               />
               <TextField
                 fullWidth
@@ -409,7 +462,7 @@ function Subjects() {
                 margin="normal"
                 required
                 error={!formData.tenmh}
-                helperText={!formData.tenmh ? 'Vui lòng nhập tên môn học' : ''}
+                helperText={!formData.tenmh ? "Vui lòng nhập tên môn học" : ""}
               />
               <TextField
                 fullWidth
@@ -422,11 +475,15 @@ function Subjects() {
                 required
                 inputProps={{ min: 1 }}
                 error={!formData.sotc || formData.sotc <= 0}
-                helperText={!formData.sotc || formData.sotc <= 0 ? 'Số tín chỉ phải là số dương' : ''}
+                helperText={
+                  !formData.sotc || formData.sotc <= 0
+                    ? "Số tín chỉ phải là số dương"
+                    : ""
+                }
               />
               <input
                 accept="*/*"
-                style={{ display: 'none' }}
+                style={{ display: "none" }}
                 id="tailieu-file"
                 type="file"
                 onChange={handleFileChange}
@@ -439,10 +496,15 @@ function Subjects() {
                   sx={{ mt: 2 }}
                   startIcon={<UploadIcon />}
                 >
-                  {formData.tailieu ? formData.tailieu.name : 'Chọn tài liệu'}
+                  {formData.tailieu ? formData.tailieu.name : "Chọn tài liệu"}
                 </Button>
               </label>
-              <Typography variant="caption" color="textSecondary" display="block" sx={{ mt: 1 }}>
+              <Typography
+                variant="caption"
+                color="textSecondary"
+                display="block"
+                sx={{ mt: 1 }}
+              >
                 Kích thước tối đa: 10MB
               </Typography>
             </Box>
@@ -450,7 +512,7 @@ function Subjects() {
           <DialogActions>
             <Button onClick={handleCloseDialog}>Hủy</Button>
             <Button onClick={handleSubmit} variant="contained" color="primary">
-              {selectedSubject ? 'Cập nhật' : 'Thêm mới'}
+              {selectedSubject ? "Cập nhật" : "Thêm mới"}
             </Button>
           </DialogActions>
         </Dialog>
@@ -459,4 +521,4 @@ function Subjects() {
   );
 }
 
-export default Subjects; 
+export default Subjects;

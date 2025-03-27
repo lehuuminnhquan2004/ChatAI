@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Container,
@@ -18,18 +18,16 @@ import {
   Button,
   Alert,
   CircularProgress,
-  Chip
-} from '@mui/material';
-import {
-  Visibility as VisibilityIcon
-} from '@mui/icons-material';
-import axios from 'axios';
-import AdminLayout from './layouts/AdminLayout';
+  Chip,
+} from "@mui/material";
+import { Visibility as VisibilityIcon } from "@mui/icons-material";
+import axios from "axios";
+import AdminLayout from "./layouts/AdminLayout";
 
 function Chats() {
   const [chats, setChats] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedChat, setSelectedChat] = useState(null);
 
@@ -39,14 +37,17 @@ function Chats() {
 
   const fetchChats = async () => {
     try {
-      const token = localStorage.getItem('adminToken');
-      const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/admin/chats`, {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
+      const token = localStorage.getItem("adminToken");
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/api/admin/chats`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       setChats(response.data.chats);
     } catch (error) {
-      setError('Không thể tải lịch sử chat');
-      console.error('Lỗi:', error);
+      setError("Không thể tải lịch sử chat");
+      console.error("Lỗi:", error);
     } finally {
       setLoading(false);
     }
@@ -63,19 +64,26 @@ function Chats() {
   };
 
   const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleString('vi-VN', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit'
+    return new Date(dateString).toLocaleString("vi-VN", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
     });
   };
 
   return (
     <AdminLayout>
       <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            mb: 3,
+          }}
+        >
           <Typography variant="h4" component="h1">
             Lịch sử chat
           </Typography>
@@ -126,8 +134,16 @@ function Chats() {
                       </TableCell>
                       <TableCell>
                         <Chip
-                          label={chat.trangthai === 'Đã trả lời' ? 'Đã trả lời' : 'Chưa trả lời'}
-                          color={chat.trangthai === 'Đã trả lời' ? 'success' : 'warning'}
+                          label={
+                            chat.trangthai === "Đã trả lời"
+                              ? "Đã trả lời"
+                              : "Chưa trả lời"
+                          }
+                          color={
+                            chat.trangthai === "Đã trả lời"
+                              ? "success"
+                              : "warning"
+                          }
                           size="small"
                         />
                       </TableCell>
@@ -144,32 +160,45 @@ function Chats() {
           </TableContainer>
         </Paper>
 
-        <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="md" fullWidth>
-          <DialogTitle>
-            Chi tiết cuộc trò chuyện
-          </DialogTitle>
+        <Dialog
+          open={openDialog}
+          onClose={handleCloseDialog}
+          maxWidth="md"
+          fullWidth
+        >
+          <DialogTitle>Chi tiết cuộc trò chuyện</DialogTitle>
           <DialogContent>
             {selectedChat && (
               <Box sx={{ pt: 2 }}>
                 <Typography variant="subtitle1" gutterBottom>
-                  <strong>Sinh viên:</strong> {selectedChat.tensv} ({selectedChat.masv})
+                  <strong>Sinh viên:</strong> {selectedChat.tensv} (
+                  {selectedChat.masv})
                 </Typography>
                 <Typography variant="subtitle1" gutterBottom>
-                  <strong>Thời gian:</strong> {formatDate(selectedChat.thoigian)}
+                  <strong>Thời gian:</strong>{" "}
+                  {formatDate(selectedChat.thoigian)}
                 </Typography>
                 <Typography variant="subtitle1" gutterBottom>
-                  <strong>Trạng thái:</strong>{' '}
+                  <strong>Trạng thái:</strong>{" "}
                   <Chip
-                    label={selectedChat.trangthai === 'Đã trả lời' ? 'Đã trả lời' : 'Chưa trả lời'}
-                    color={selectedChat.trangthai === 'Đã trả lời' ? 'success' : 'warning'}
+                    label={
+                      selectedChat.trangthai === "Đã trả lời"
+                        ? "Đã trả lời"
+                        : "Chưa trả lời"
+                    }
+                    color={
+                      selectedChat.trangthai === "Đã trả lời"
+                        ? "success"
+                        : "warning"
+                    }
                     size="small"
                   />
                 </Typography>
                 <Typography variant="subtitle1" gutterBottom>
                   <strong>Nội dung:</strong>
                 </Typography>
-                <Paper sx={{ p: 2, bgcolor: 'grey.50' }}>
-                  <Typography variant="body1" sx={{ whiteSpace: 'pre-wrap' }}>
+                <Paper sx={{ p: 2, bgcolor: "grey.50" }}>
+                  <Typography variant="body1" sx={{ whiteSpace: "pre-wrap" }}>
                     {selectedChat.noidung}
                   </Typography>
                 </Paper>
@@ -178,8 +207,13 @@ function Chats() {
                     <Typography variant="subtitle1" gutterBottom sx={{ mt: 2 }}>
                       <strong>Trả lời:</strong>
                     </Typography>
-                    <Paper sx={{ p: 2, bgcolor: 'primary.light', color: 'white' }}>
-                      <Typography variant="body1" sx={{ whiteSpace: 'pre-wrap' }}>
+                    <Paper
+                      sx={{ p: 2, bgcolor: "primary.light", color: "white" }}
+                    >
+                      <Typography
+                        variant="body1"
+                        sx={{ whiteSpace: "pre-wrap" }}
+                      >
                         {selectedChat.traloi}
                       </Typography>
                     </Paper>
@@ -197,4 +231,4 @@ function Chats() {
   );
 }
 
-export default Chats; 
+export default Chats;
