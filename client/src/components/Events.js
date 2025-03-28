@@ -117,35 +117,12 @@ function Events() {
   };
 
   const getEventImage = (event) => {
-    const eventName = event.tensk.toLowerCase();
-    
-    // Sự kiện bóng đá
-    if (eventName.includes('bóng đá')) {
-      return '/event/rolandoooooosuuuu.jpg';
+    // Nếu sự kiện có hình ảnh, sử dụng hình ảnh đó
+    if (event.hinhanh) {
+      return `/event/${event.hinhanh}`;
     }
     
-    // Sự kiện liên quan đến động vật
-    if (eventName.includes('thú cưng') || eventName.includes('động vật')) {
-      return '/event/conmeo3.jpg';
-    }
-
-    // Sự kiện liên quan đến con người/hoạt động xã hội
-    if (eventName.includes('tình nguyện') || 
-        eventName.includes('thiện nguyện') || 
-        eventName.includes('xã hội') ||
-        eventName.includes('cộng đồng')) {
-      return '/event/connguoi1.jpg';
-    }
-
-    // Sự kiện giáo dục/học tập
-    if (eventName.includes('học tập') || 
-        eventName.includes('giáo dục') || 
-        eventName.includes('đào tạo') ||
-        eventName.includes('workshop')) {
-      return '/event/connguoi2.jpg';
-    }
-
-    // Ảnh mặc định cho các sự kiện khác
+    // Nếu không có hình ảnh, sử dụng ảnh mặc định
     return '/event/connguoi1.jpg';
   };
 

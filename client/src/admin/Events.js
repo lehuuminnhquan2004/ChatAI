@@ -57,11 +57,11 @@ function Events() {
     ctxh: '',
     drl: ''
   });
-  const [uploadProgress, setUploadProgress] = useState(0);
   const [previewImage, setPreviewImage] = useState('');
   const fileInputRef = useRef(null);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [eventToDelete, setEventToDelete] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
 
   useEffect(() => {
     fetchEvents();
@@ -130,6 +130,8 @@ function Events() {
       ctxh: '',
       drl: ''
     });
+    setSelectedFile(null);
+    setPreviewImage('');
   };
 
   const handleChange = (e) => {
@@ -139,27 +141,91 @@ function Events() {
     });
   };
 
-  const handleSubmit = async () => {
+  const handleFileChange = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    const file = e.target.files[0];
+    if (!file) return;
+
+    // Kiểm tra kích thước file (giới hạn 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      setError('Kích thước file không được vượt quá 5MB');
+      return;
+    }
+
+    // Kiểm tra định dạng file
+    const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
+    if (!validTypes.includes(file.type)) {
+      setError('Chỉ chấp nhận file ảnh định dạng JPG, PNG hoặc GIF');
+      return;
+    }
+
+    // Tạo preview
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setPreviewImage(reader.result);
+      setSelectedFile(file);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
     try {
       const token = localStorage.getItem('adminToken');
+      let imageUrl = formData.hinhanh; // Giữ URL ảnh cũ nếu có
+
+      // Nếu có file ảnh mới, upload trước
+      if (selectedFile) {
+        const formData = new FormData();
+        formData.append('hinhanh', selectedFile);
+
+        const uploadResponse = await axios.post(
+          `${process.env.REACT_APP_API_URL}/api/events/upload`,
+          formData,
+          {
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'multipart/form-data'
+            }
+          }
+        );
+
+        if (uploadResponse.data.success) {
+          imageUrl = uploadResponse.data.url;
+        } else {
+          throw new Error('Upload ảnh thất bại');
+        }
+      }
+
+      // Cập nhật formData với URL ảnh mới
+      const submitData = {
+        ...formData,
+        hinhanh: imageUrl
+      };
+
       if (selectedEvent) {
         // Cập nhật sự kiện
         await axios.put(
           `${process.env.REACT_APP_API_URL}/api/events/${selectedEvent.mask}`,
-          formData,
+          submitData,
           { headers: { 'Authorization': `Bearer ${token}` } }
         );
       } else {
         // Thêm sự kiện mới
         await axios.post(
           `${process.env.REACT_APP_API_URL}/api/events`,
-          formData,
+          submitData,
           { headers: { 'Authorization': `Bearer ${token}` } }
         );
       }
       handleCloseDialog();
       fetchEvents();
     } catch (error) {
+      console.error('Lỗi:', error);
       setError(error.response?.data?.message || 'Có lỗi xảy ra');
     }
   };
@@ -200,69 +266,13 @@ function Events() {
     });
   };
 
-  const handleFileChange = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    // Kiểm tra kích thước file (giới hạn 5MB)
-    if (file.size > 5 * 1024 * 1024) {
-      setError('Kích thước file không được vượt quá 5MB');
-      return;
-    }
-
-    // Kiểm tra định dạng file
-    const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
-    if (!validTypes.includes(file.type)) {
-      setError('Chỉ chấp nhận file ảnh định dạng JPG, PNG hoặc GIF');
-      return;
-    }
-
-    // Tạo preview
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setPreviewImage(reader.result);
-    };
-    reader.readAsDataURL(file);
-
-    // Tạo FormData để upload
-    const formData = new FormData();
-    formData.append('image', file);
-
-    try {
-      const token = localStorage.getItem('adminToken');
-      const response = await axios.post(
-        `${process.env.REACT_APP_API_URL}/api/upload`,
-        formData,
-        {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'multipart/form-data'
-          },
-          onUploadProgress: (progressEvent) => {
-            const progress = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-            setUploadProgress(progress);
-          }
-        }
-      );
-
-      // Cập nhật URL hình ảnh sau khi upload thành công
-      setFormData({
-        ...formData,
-        hinhanh: response.data.url
-      });
-      setUploadProgress(0);
-    } catch (error) {
-      setError('Không thể tải lên hình ảnh. Vui lòng thử lại.');
-      setUploadProgress(0);
-    }
-  };
-
   const handleRemoveImage = () => {
     setFormData({
       ...formData,
       hinhanh: ''
     });
     setPreviewImage('');
+    setSelectedFile(null);
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
@@ -435,7 +445,7 @@ function Events() {
                           <Tooltip title={event.hinhanh}>
                             <IconButton 
                               size="small" 
-                              onClick={() => window.open(event.hinhanh, '_blank')}
+                              onClick={() => window.open(`/event/${event.hinhanh}`, '_blank')}
                               sx={{ 
                                 color: 'primary.main',
                                 '&:hover': { backgroundColor: 'primary.lighter' }
@@ -717,7 +727,7 @@ function Events() {
                         }}
                       >
                         <img
-                          src={previewImage || formData.hinhanh}
+                          src={previewImage || (formData.hinhanh ? `/event/${formData.hinhanh}` : '')}
                           alt="Preview"
                           style={{
                             width: '100%',
@@ -725,25 +735,6 @@ function Events() {
                             objectFit: 'contain'
                           }}
                         />
-                        {uploadProgress > 0 && (
-                          <Box
-                            sx={{
-                              position: 'absolute',
-                              top: 0,
-                              left: 0,
-                              right: 0,
-                              bottom: 0,
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              bgcolor: 'rgba(0, 0, 0, 0.5)'
-                            }}
-                          >
-                            <Typography color="white">
-                              Đang tải lên: {uploadProgress}%
-                            </Typography>
-                          </Box>
-                        )}
                       </Box>
                       <Stack direction="row" spacing={1} justifyContent="center">
                         <Button
