@@ -25,6 +25,7 @@ import {
   Person as PersonIcon,
   Logout as LogoutIcon,
   Event as EventIcon,
+  School as SchoolIcon,
 } from '@mui/icons-material';
 import authService from '../services/authService';
 
@@ -116,6 +117,7 @@ function MainLayout({ children }) {
     { text: 'Trang chủ', icon: <HomeIcon />, path: '/' },
     { text: 'Thời Khoá Biểu', icon: <CalendarIcon />, path: '/schedule' },
     { text: 'Sự Kiện', icon: <EventIcon />, path: '/events' },
+    { text: 'Thông Tin Giảng Viên', icon: <SchoolIcon />, path: '/teachers' },
   ];
 
   // Component sidebar chứa logo và menu items

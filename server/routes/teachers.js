@@ -1,15 +1,17 @@
 const express = require("express");
 const router = express.Router();
-const db = require("../config/db");
+const pool = require("../config/db");
 
 // Get all teachers
 router.get("/", async (req, res) => {
   try {
-    const [teachers] = await db.query("SELECT * FROM giangvien");
-    res.json(teachers);
+    console.log("Đang lấy thông tin giảng viên...");
+    const [rows] = await pool.query("SELECT * FROM giangvien");
+    console.log("Kết quả truy vấn:", rows);
+    res.json(rows);
   } catch (error) {
     console.error("Error fetching teachers:", error);
-    res.status(500).json({ message: "Lỗi khi lấy dữ liệu giảng viên" });
+    res.status(500).json({ message: "Lỗi khi lấy thông tin giảng viên" });
   }
 });
 

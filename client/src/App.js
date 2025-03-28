@@ -17,6 +17,7 @@ import ForgotPassword from "./components/ForgotPassword";
 import SchedulePage from "./pages/SchedulePage";
 import Profile from "./components/Profile";
 import ChangePassword from "./components/ChangePassword";
+import Teachers from "./components/Teachers";
 import AdminHome from "./admin/Home";
 import AdminStudents from "./admin/Students";
 import AdminSubjects from "./admin/Subjects";
@@ -72,6 +73,16 @@ function App() {
               <PrivateRoute>
                 <MainLayout>
                   <StudentEvents />
+                </MainLayout>
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/teachers"
+            element={
+              <PrivateRoute>
+                <MainLayout>
+                  <Teachers />
                 </MainLayout>
               </PrivateRoute>
             }
