@@ -116,14 +116,11 @@ function Events() {
     }
   };
 
-  const getEventImage = (event) => {
-    // Nếu sự kiện có hình ảnh, sử dụng hình ảnh đó
+  const getImageUrl = (event) => {
     if (event.hinhanh) {
-      return `/event/${event.hinhanh}`;
+      return `${process.env.REACT_APP_API_URL}/images/event/${event.hinhanh}`;
     }
-    
-    // Nếu không có hình ảnh, sử dụng ảnh mặc định
-    return '/event/connguoi1.jpg';
+    return `${process.env.REACT_APP_API_URL}/images/event/connguoi1.jpg`;
   };
 
   return (
@@ -291,7 +288,7 @@ function Events() {
                     <CardMedia
                       className="event-card-media"
                       component="img"
-                      image={getEventImage(event)}
+                      image={getImageUrl(event)}
                       alt={event.tensk}
                       sx={{ 
                         position: 'absolute',

@@ -445,7 +445,7 @@ function Events() {
                           <Tooltip title={event.hinhanh}>
                             <IconButton 
                               size="small" 
-                              onClick={() => window.open(`/event/${event.hinhanh}`, '_blank')}
+                              onClick={() => window.open(`${process.env.REACT_APP_API_URL}/images/event/${event.hinhanh}`, '_blank')}
                               sx={{ 
                                 color: 'primary.main',
                                 '&:hover': { backgroundColor: 'primary.lighter' }
@@ -727,7 +727,7 @@ function Events() {
                         }}
                       >
                         <img
-                          src={previewImage || (formData.hinhanh ? `/event/${formData.hinhanh}` : '')}
+                          src={previewImage || (formData.hinhanh ? `${process.env.REACT_APP_API_URL}/images/event/${formData.hinhanh}` : '')}
                           alt="Preview"
                           style={{
                             width: '100%',

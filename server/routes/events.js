@@ -6,8 +6,8 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
-// Đảm bảo thư mục public/event tồn tại
-const uploadDir = path.join(__dirname, '../../client/public/event');
+// Đảm bảo thư mục server/images/event tồn tại
+const uploadDir = path.join(__dirname, '../images/event');
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
 }
@@ -191,6 +191,18 @@ router.delete('/:mask', auth, async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: 'Lỗi khi xóa sự kiện', error: error.message });
     }
+});
+
+// Thêm route để phục vụ ảnh
+router.get('/image/:filename', (req, res) => {
+  const { filename } = req.params;
+  const imagePath = path.join(uploadDir, filename);
+  
+  if (fs.existsSync(imagePath)) {
+    res.sendFile(imagePath);
+  } else {
+    res.status(404).json({ message: 'Không tìm thấy ảnh' });
+  }
 });
 
 module.exports = router;

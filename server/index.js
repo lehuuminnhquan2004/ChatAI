@@ -27,9 +27,7 @@ app.use(express.json());
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
-
-
-// Phục vụ file tĩnh từ thư mục images
+// Phục vụ file tĩnh từ thư mục server/images
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
 // Kiểm tra kết nối database
