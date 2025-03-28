@@ -137,26 +137,28 @@ INSERT INTO `lichsuchat` (`id`, `masv`, `nguoidung_chat`, `ai_rep`, `thoigiancha
 --
 -- Cấu trúc bảng cho bảng `monhoc`
 --
-
 CREATE TABLE `monhoc` (
   `mamh` varchar(50) NOT NULL,
-  `tenmh` varchar(50) NOT NULL,
-  `sotc` int(10) NOT NULL,
-  `tailieu` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
+  `tenmh` varchar(255) NOT NULL,
+  `sotc` int(10) NOT NULL CHECK (`sotc` >= 0),
+  `tailieu_path` varchar(255) DEFAULT NULL,
+  `tailieu_name` varchar(255) DEFAULT NULL,
+  `tailieu_type` varchar(50) DEFAULT NULL,
+  `tailieu_size` bigint DEFAULT NULL,
+  `ngay_cap_nhat` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`mamh`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 --
 -- Đang đổ dữ liệu cho bảng `monhoc`
 --
 
-INSERT INTO `monhoc` (`mamh`, `tenmh`, `sotc`, `tailieu`) VALUES
-('001', 'HTML', 0, 'Quan Le Huu Minh'),
-('002', 'JavaScript', 0, 'QuanDepTrai'),
-('003', 'CSS', 0, 'Viễn Anh Tho'),
-('004', 'Công Nghệ Phần Mềm', 0, 'Hiệu'),
-('005', 'Nhập môn web và ứng dụng', 0, 'Thầy Nghĩa'),
-('006', 'Cơ sở dữ liệu', 2, NULL);
-
+INSERT INTO `monhoc` ( `mamh`, `tenmh`, `sotc`, `tailieu_path`, `tailieu_name`, `tailieu_type`, `tailieu_size`, `ngay_cap_nhat` ) VALUES
+  ( '001', 'HTML', 3, NULL, NULL, NULL, NULL, CURRENT_TIMESTAMP ),
+  ('002','JavaScript',3,NULL,NULL,NULL, NULL, CURRENT_TIMESTAMP ),
+  ('003','CSS',3, NULL, NULL, NULL, NULL, CURRENT_TIMESTAMP),
+  ('004','Công Nghệ Phần Mềm',4,NULL, NULL, NULL, NULL, CURRENT_TIMESTAMP),
+  ('005','Nhập môn web và ứng dụng',3,NULL,NULL,NULL,NULL,CURRENT_TIMESTAMP ),
+  ('006','Cơ sở dữ liệu',2,NULL, NULL, NULL, NULL, CURRENT_TIMESTAMP );
 -- --------------------------------------------------------
 
 --
