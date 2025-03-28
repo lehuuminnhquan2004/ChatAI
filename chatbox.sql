@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th3 27, 2025 lúc 03:20 PM
+-- Thời gian đã tạo: Th3 28, 2025 lúc 02:52 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -38,6 +38,32 @@ CREATE TABLE `admin` (
 
 INSERT INTO `admin` (`STT`, `masv`) VALUES
 (2, 'DH52201286');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `dangky_sukien`
+--
+
+CREATE TABLE `dangky_sukien` (
+  `STT` int(10) NOT NULL,
+  `mask` varchar(50) NOT NULL,
+  `masv` varchar(50) NOT NULL,
+  `ngaydangky` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `dangky_sukien`
+--
+
+INSERT INTO `dangky_sukien` (`STT`, `mask`, `masv`, `ngaydangky`) VALUES
+(1, 'DVS01', 'DH52201105', '2025-03-27 13:01:00'),
+(2, 'SK001', 'DH52201105', '2025-03-27 13:01:00'),
+(3, 'SK002', 'DH52201105', '2025-03-27 13:01:00'),
+(4, 'SK003', 'DH52201105', '2025-03-27 13:01:00'),
+(5, 'SK005', 'DH52201286', '2025-03-28 20:17:52'),
+(6, 'SK001', 'DH52201286', '2025-03-28 20:38:01'),
+(7, 'SK004', 'DH52201286', '2025-03-28 20:49:19');
 
 -- --------------------------------------------------------
 
@@ -224,26 +250,12 @@ CREATE TABLE `sukien` (
 --
 
 INSERT INTO `sukien` (`mask`, `tensk`, `noidung`, `hinhanh`, `thoigianbatdau`, `thoigianketthuc`, `ctxh`, `drl`) VALUES
-('DVS01', 'Dọn vệ sinh', 'dọn rác sân trường', '', '2025-03-27 13:01:00', '2025-03-28 13:01:00', 1, 0),
-('SK001', 'Hiến máu nhân đạo', 'Chương trình hiến máu nhân đạo tại trường', 'hienmau.jpg', '2025-04-01 08:00:00', '2025-04-01 16:00:00', 8, 10),
-('SK002', 'Dọn vệ sinh môi trường', 'Dọn dẹp, làm sạch khuôn viên trường', 'vesinh.jpg', '2025-04-15 07:30:00', '2025-04-15 11:30:00', 4, 5),
-('SK003', 'Workshop Kỹ năng mềm', 'Hội thảo về kỹ năng giao tiếp và làm việc nhóm', 'workshop.jpg', '2025-04-20 13:30:00', '2025-04-20 16:30:00', 3, 5),
-('SK004', 'Ngày hội việc làm', 'Kết nối doanh nghiệp và sinh viên', 'job.jpg', '2025-05-01 08:00:00', '2025-05-01 17:00:00', 8, 10),
-('SK005', 'Giải bóng đá sinh viên', 'Giải bóng đá giao hữu giữa các khoa', 'football.jpg', '2025-05-10 07:00:00', '2025-05-10 17:00:00', 8, 10);
-
--- Cấu trúc bảng đăng ký sự kiện 'dangky_sukien'
-CREATE TABLE `dangky_sukien` (
-  `mask` varchar(50) NOT NULL,
-  `masv` varchar(50) NOT NULL,
-  `ngaydangky` datetime DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- Đang đổ dữ liệu cho bảng `dangky_sukien`
-INSERT INTO `dangky_sukien` (`mask`, `masv`, `ngaydangky`) VALUES
-('DVS01', 'DH52201105', '2025-03-27 13:01:00'),
-('SK001', 'DH52201105', '2025-03-27 13:01:00'),
-('SK002', 'DH52201105', '2025-03-27 13:01:00'),
-('SK003', 'DH52201105', '2025-03-27 13:01:00'),
+('DVS01', 'Dọn vệ sinh', 'dọn rác sân trường', 'FB_IMG_1703582531057.jpg', '2025-03-26 16:01:00', '2025-03-27 16:01:00', 1, 0),
+('SK001', 'Hiến máu nhân đạo', 'Chương trình hiến máu nhân đạo tại trường', 'IMG_20240321_144329.jpg', '2025-04-01 01:00:00', '2025-04-01 09:00:00', 8, 10),
+('SK002', 'Dọn vệ sinh môi trường', 'Dọn dẹp, làm sạch khuôn viên trường', 'conmeo3.jpg', '2025-04-15 07:30:00', '2025-04-15 11:30:00', 4, 5),
+('SK003', 'Workshop Kỹ năng mềm', 'Hội thảo về kỹ năng giao tiếp và làm việc nhóm', 'Screenshot 2025-01-04 235821.png', '2025-04-19 09:30:00', '2025-04-19 12:30:00', 3, 5),
+('SK004', 'Ngày hội việc làm', 'Kết nối doanh nghiệp và sinh viên', 'Screenshot 2024-03-29 011835.png', '2025-04-29 21:00:00', '2025-04-30 06:00:00', 8, 10),
+('SK005', 'Giải bóng đá sinh viên', 'Giải bóng đá giao hữu giữa các khoa', 'rolandoooooosuuuu.jpg', '2025-05-10 07:00:00', '2025-05-10 17:00:00', 8, 10);
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -253,6 +265,12 @@ INSERT INTO `dangky_sukien` (`mask`, `masv`, `ngaydangky`) VALUES
 -- Chỉ mục cho bảng `admin`
 --
 ALTER TABLE `admin`
+  ADD PRIMARY KEY (`STT`);
+
+--
+-- Chỉ mục cho bảng `dangky_sukien`
+--
+ALTER TABLE `dangky_sukien`
   ADD PRIMARY KEY (`STT`);
 
 --
@@ -312,6 +330,12 @@ ALTER TABLE `sukien`
 --
 ALTER TABLE `admin`
   MODIFY `STT` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT cho bảng `dangky_sukien`
+--
+ALTER TABLE `dangky_sukien`
+  MODIFY `STT` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT cho bảng `lichhoc`
