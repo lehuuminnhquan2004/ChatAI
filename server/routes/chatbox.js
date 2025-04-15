@@ -70,7 +70,7 @@ async function getStudentInfo(masv) {
 async function getStudentSchedule(masv) {
     try {
         const [schedule] = await pool.execute(
-            `SELECT * FROM lichhoc join monhoc on lichhoc.mamh = monhoc.mamh WHERE masv = ?`,
+            `SELECT * FROM lichhoc join monhoc on lichhoc.mamh = monhoc.mamh join giangvien on lichhoc.magv = giangvien.magv WHERE masv = ?`,
             [masv]
         );
         return schedule;
@@ -156,7 +156,7 @@ router.post('/', async (req, res) => {
         - Chuyên ngành: ${studentInfo.chuyennganh}
         - Ngày sinh: ${studentInfo.ngaysinh}
         Lịch học:
-        ${schedule.map(item => `- Thứ ${item.Thu}, Ca ${item.Ca}: ${item.tenmh} (${item.giangvien}) tại phòng ${item.phong}`).join('\n')}
+        ${schedule.map(item => `- Thứ ${item.Thu}, Ca ${item.Ca}: ${item.tenmh} (${item.tengv}) tại phòng ${item.phong}`).join('\n')}
         các ca học 1: 7h30 - 9h, ca học 2: 9h30 - 12h, ca học 3: 12h30 - 15h, ca học 4: 15h-17h30,
 
         Lịch sử chat:
