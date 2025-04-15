@@ -13,6 +13,7 @@ const eventRoutes = require('./routes/events');
 const subjectRoutes = require('./routes/subjects');
 const studentRoutes = require('./routes/admin/students');
 const adminChatRouter = require('./routes/adminChatbox');
+require('./services/scheduler');
 
 // Cấu hình dotenv để sử dụng biến môi trường từ file .env
 dotenv.config();
