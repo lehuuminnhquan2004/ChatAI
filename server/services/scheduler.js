@@ -1,8 +1,7 @@
 const cron = require('node-cron');
 const { sendScheduleNotification } = require('./emailService');
 
-// Lên lịch gửi email vào 13h32 mỗi ngày
-cron.schedule('46 13 * * *', () => {
+cron.schedule('0 20 * * *', () => {
   console.log('Bắt đầu gửi thông báo lịch học...');
   sendScheduleNotification();
 }); 
