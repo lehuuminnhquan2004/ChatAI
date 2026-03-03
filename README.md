@@ -70,7 +70,7 @@ Hệ thống chat AI thông minh được xây dựng để hỗ trợ sinh viê
 
 ### 1. Clone dự án
 ```bash
-git clone <repository-url>
+git clone https://github.com/lehuuminnhquan2004/ChatAI.git
 cd chatbox
 ```
 
